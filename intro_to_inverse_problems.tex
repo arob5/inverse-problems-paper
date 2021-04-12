@@ -24,6 +24,8 @@
 \newcommand*{\suchthat}{\,\mathrel{\big|}\,}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Img}{\mathrm{Img}}
+\newcommand{\Ker}{\mathrm{Ker}}
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\Prob}{\mathbb{P}}
 \DeclarePairedDelimiterX\innerp[2]{(}{)}{#1\delimsize\vert\mathopen{}#2}
@@ -46,13 +48,18 @@ The study of inverse problems is generally concerned with approximating an unkno
 \end{enumerate} 
 
 \section{Inverse Problems}
+
+\subsection{Introduction} \hfill \\
 Students of linear algebra may recall the prominence of the matrix equation $\textbf{Ax} = \textbf{b}$. Here we may consider $\textbf{A}$ as a linear map that acts on a given vector $\textbf{x}$ and produces the output vector $\textbf{b}$. This constitutes the ``forward problem'' in which we are given inputs and must calculate outputs. The corresponding ``inverse problem'' reverses the situation; we observe $\textbf{b}$ and must determine the input $\textbf{x}$. In its simplest form we may assume $\textbf{A}$ is invertible, in which case the solution to the inverse problem simply involves matrix inversion: $x = A^{-1}b$. This paper introduces a vast generalization of this inverse problem framework, shedding the simplifying assumptions of finite dimensionality, invertibility, and existence of a solution. The motivation for such a general theory of inverse problems will become clear with examples, as the majority of interesting applications fail to enjoy the ``well-posedness'' of the above equation. To make these notions concrete, consider the following equation:
 
 \begin{align*} 
 &F: X \to Y && F(x) = y && (1.1)
 \end{align*} 
 
-This equation, which generalizes the above matrix equation, will constitute the primary subject of our analysis. The goal remains to compute $x$ given $y$. For the time being, I have been intentionally vague regarding specific properties of the map $F$ or spaces $X$ and $Y$. The ensuing sections will demonstrate that different assumptions about these objects will result in different avenues for analysis and produce different results. The following definition highlights the central difficulties in studying this problem, and motivates much of the theory discussed in this paper. \\
+This equation, which generalizes the above matrix equation, will constitute the primary subject of our analysis. The goal remains to compute $x$ given $y$. For the time being, I have been intentionally vague regarding specific properties of the map $F$ or spaces $X$ and $Y$. The ensuing sections will demonstrate that different assumptions about these objects will result in different avenues for analysis and produce different results. 
+
+\subsection{Ill-Posed Problems} \hfill \\
+The following definition highlights the central difficulties in studying inverse problems, and motivates much of the theory discussed in this paper. \\
 
 
 \textbf{Definition} \textit{Hadamard's Conditions for Well-Posedness}: (EL) Problem (1.1) is \textit{well-posed} in the sense of Hadamard provided it meets the three following conditions: 
@@ -69,7 +76,29 @@ The treatment of of ill-posedness is the primary focus in the study of inverse p
 &\argmin_{x \in X} \norm{F(x) - y}
 \end{align*}
  
- The violation of stability presents a more difficult problem. In general we imagine $y$ to be data measured imprecisely. Therefore, the concern is that small fluctuations in the observations $y$ lead to large deviations in $x$. 
+ The violation of stability presents a more difficult challenge. In general we imagine $y$ to be data measured imprecisely. Therefore, the concern is that small fluctuations in the observations $y$ may lead to large deviations in $x$. Regularization methods form the foundation of the toolkit used to address this problem and will be discussed later in this paper. 
+ 
+ \subsection{Theoretical Framework} \hfill \\
+ 
+ \subsection{Examples} \hfill \\
+ An abstract, general formulation of inverse problems may not initially appear useful. However, it soon becomes clear that the generality allows these techniques to be applied to a wide array of problems across various fields. Many of these applications are naturally formulated in infinite-dimensional vector spaces, and moreover suffer from ill-posedness. I provide three examples below of such applications. 
+ 
+ \subsubsection{Statistical Estimation} \hfill \\
+ Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics and machine learning, may be formulated as an inverse problem. In this case we view $F_\theta$ as a model or process that depends on some parameters $\theta$. We may alternatively view $\theta$ as an additional input to the system, in which case $F$ acts on both the parameters and input data to produce the observed outputs; that is, $F(\theta, x) = y$. The problem thus becomes: given observed outputs $y$ and inputs $x$, estimate the parameters $\theta$ of the underlying process $F$. 
+ 
+ \section{Preliminaries: Operator Theory and Probability}
+ This paper assumes basic knowledge of the major results in the study of Banach and Hilbert Spaces, including the theory of linear functionals and duality. However, no background in operator theory is assumed. Given how intertwined the study of inverse problems is with the study of operators, all of the needed results are detailed here. Proofs are provided when deemed useful, with some being relegated to the appendix. 
+ 
+ \subsection{Operator Theory} \hfill \\
+ Throughout this paper, all vector spaces are assumed to be real. 
+ 
+ \textbf{Definition}: A \textit{map} $F: X \to Y$ is function mapping between two vector spaces $X$ and $Y$, called the \textit{domain} and \textit{codomain}, respectively. If $F$ maps $x \in X$ to $y \in Y$ I write $F(x) = y$. I denote by $\Img F$ the set of all $y \in Y$ such that there is an $x \in X$ with $F(x) = y$. I denote by $\Ker F$ the set of all $x \in X$ that map to the zero vector $0 \in Y$. Letting $U \subset Y$, I define the \textit{inverse image} (or \textit{pre-image}) $F^{-1}(V)$ to be the set of all $x \in X$ satisfying $F(x) \in V$. 
+ 
+ Throughout this paper, we restrict our attention to the study of linear inverse problems. Therefore, the following definition is central to the theory. 
+ 
+ \textbf{Definition}: A \textit{linear map} (or \textit{operator}) is a map $F: X \to Y$ satisfying $F(\alpha_1x_1 + \alpha_2x_2) = \alpha_1F(x_1) + \alpha_2F(x_2)$ for all real numbers $\alpha_1, \alpha_2$ and vectors $x_1, x_2 \in X$. 
+ 
+ 
 
 
 
