@@ -87,7 +87,10 @@ The treatment of of ill-posedness is the primary focus in the study of inverse p
  Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics and machine learning, may be formulated as an inverse problem. In this case we view $F_\theta$ as a model or process that depends on some parameters $\theta$. We may alternatively view $\theta$ as an additional input to the system, in which case $F$ acts on both the parameters and input data to produce the observed outputs; that is, $F(\theta, x) = y$. The problem thus becomes: given observed outputs $y$ and inputs $x$, estimate the parameters $\theta$ of the underlying process $F$. 
  
  \section{Preliminaries: Operator Theory and Probability}
- This paper assumes basic knowledge of the major results in the study of Banach and Hilbert Spaces, including the theory of linear functionals and duality. However, no background in operator theory is assumed. Given how intertwined the study of inverse problems is with the study of operators, all of the needed results are detailed here. Proofs are provided when deemed useful, with some being relegated to the appendix. 
+ This paper assumes basic knowledge of the major results in the study of Banach and Hilbert Spaces, including the basic theory of linear maps between such spaces. However, 
+ 
+ 
+ However, no background in operator theory is assumed. Given how intertwined the study of inverse problems is with the study of operators, all of the needed results are detailed here. Proofs are provided when deemed useful, with some being relegated to the appendix. 
  
  \subsection{Operator Theory} \hfill \\
  Throughout this paper, all vector spaces are assumed to be real. 
@@ -96,10 +99,37 @@ The treatment of of ill-posedness is the primary focus in the study of inverse p
  
  Throughout this paper, we restrict our attention to the study of linear inverse problems. Therefore, the following definition is central to the theory. 
  
- \textbf{Definition}: A \textit{linear map} (or \textit{operator}) is a map $F: X \to Y$ satisfying $F(\alpha_1x_1 + \alpha_2x_2) = \alpha_1F(x_1) + \alpha_2F(x_2)$ for all real numbers $\alpha_1, \alpha_2$ and vectors $x_1, x_2 \in X$. 
- 
- 
+ \textbf{Definition}: A \textit{linear map} (or \textit{operator}) is a map $F: X \to Y$ satisfying $F(\alpha_1x_1 + \alpha_2x_2) = \alpha_1F(x_1) + \alpha_2F(x_2)$ for all real numbers $\alpha_1, \alpha_2$ and vectors $x_1, x_2 \in X$. When a map is linear, I suppress the parentheses and write function evaluation as $Fx := F(x)$. 
+
+In a manner similar to linear functional theory, it can be shown that the space of linear maps from $X$ to $Y$ is a vector space. Moreover, if $X$ and $Y$ are normed spaces we may define a norm on this space in similar fashion. 
+
+\textbf{Definition}: Let $F$ be a linear map between normed linear spaces $X$ and $Y$. Define the norm of $F$ $\norm{F} := \sup_{x \neq \theta} \frac{\norm{Fx}}{x}$. 
+
+It can, of course, be shown that this does indeed define a norm on this space. 
 
 
+\section{Linear Inverse Problems in Hilbert Space}
+
+Hilbert space provides a natural setting in which to study inverse problems. From a theoretical point of view, the rich theory of Hilbert space leads to relatively simple characterizations of solutions, while practically, many real-world inverse problems may naturally be formulated in such settings. \textbf{Insert example here that uses sum of squares norm}. Throughout this section, $X$ and $Y$ are assumed to be real Hilbert spaces with respective inner products $(\cdot | \cdot)_X$ and $(\cdot | \cdot)_Y$. Recall from section \textbf{2} that the natural approach to address the non-existence and non-uniqueness of $Tx = y$ was to consider the least-squares problem $\inf_{x \in X} \norm{Tx - y}_Y$. If we assume that $\Img T \subset Y$ is closed, this guarantees the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y$ on $\Img T$. However, we have not assumed that $T$ is injective and hence this does not imply the uniqueness of a least-squares solution. Therefore, we must study the set of all least-squares solutions, with an emphasis on the solution of minimal norm. 
+
+ \textbf{Definition} (generalized solutions): 
+ \begin{itemize}
+ \item $x \in X$ is called a \textit{least-squares solution} of 1.1 if $\norm{Tx - y}_Y \leq \norm{Tu - y}_Y$ for all $u \in X$. $\mathbb{L}$ denotes the set of all such solutions. 
+ \item $x^\dagger \in X$ is called a \textit{minimal norm least-squares solution} if $x^\dagger \in \mathbb{L}$ and $\norm{x^\dagger}_X \leq \norm{x}_X$ for all $x \in \mathbb{L}$. 
+ \end{itemize} 
+ 
+ Note that in general $\mathbb{L}$ may be empty. The following assumption relies on the assumption that $\Img T$ is closed to ensure the existence of a solution. 
+ 
+ \textbf{Proposition}: Suppose $\Img T$ is closed. Then there is a unique minimal norm least-squares solution $x^\dagger$. Moreover, $x^\dagger \in (\Ker T)^\perp$. \\[.1cm]
+ 
+ \textit{Proof}: Since $\Img T$ is closed, then there exists a unique $\hat{y} \in Y$ satisfying $\hat{y} = \min_{y^\prime \in \Img T} \norm{y^\prime - y}_{Y}$. Let $\hat{x} \in \mathbb{L}$ such that $T\hat{x} = \hat{y}$. Then, 
+ \begin{align*} 
+ \mathbb{L} &= \{x \in X: Tx = \hat{y}\} \\
+                   &= \{x \in X: T(x - \hat{x}) = 0\} \\
+                   &= \hat{x} + \{x - \hat{x} \in X: T(x - \hat{x}) = 0\} \\
+                   &= \hat{x} + \Ker T
+ \end{align*}  
+ 
+ Therefore, $ \mathbb{L}$ is a translation of the closed subspace $\Ker T$. It then follows immediately from Luenberger 3.10 Theorem 3 that there exists a unique $x^\dagger \in \mathbb{L}$ of minimal norm, and moreover that $x^\dagger$ is orthogonal to $\Ker T$. $\qquad \blacksquare$
 
 \end{document} 
