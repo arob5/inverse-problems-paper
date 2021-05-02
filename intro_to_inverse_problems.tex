@@ -112,6 +112,8 @@ It can, of course, be shown that this does indeed define a norm on this space.
 
 Hilbert space provides a natural setting in which to study inverse problems. From a theoretical point of view, the rich theory of Hilbert space leads to relatively simple characterizations of solutions, while practically, many real-world inverse problems may naturally be formulated in such settings. \textbf{Insert example here that uses sum of squares norm}. Throughout this section, $X$ and $Y$ are assumed to be real Hilbert spaces with respective inner products $(\cdot | \cdot)_X$ and $(\cdot | \cdot)_Y$. Recall from section \textbf{2} that the natural approach to address the non-existence and non-uniqueness of $Tx = y$ was to consider the least-squares problem $\inf_{x \in X} \norm{Tx - y}_Y$. If we assume that $\Img T \subset Y$ is closed, this guarantees the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y$ on $\Img T$. However, we have not assumed that $T$ is injective and hence this does not imply the uniqueness of a least-squares solution. Therefore, we must study the set of all least-squares solutions, with an emphasis on the solution of minimal norm. 
 
+\subsection{Characterization of Solutions}
+
  \textbf{Definition} (generalized solutions): 
  \begin{itemize}
  \item $x \in X$ is called a \textit{least-squares solution} of 1.1 if $\norm{Tx - y}_Y \leq \norm{Tu - y}_Y$ for all $u \in X$. $\mathbb{L}$ denotes the set of all such solutions. 
@@ -135,7 +137,7 @@ Hilbert space provides a natural setting in which to study inverse problems. Fro
  While the above proof is illustrative, the assumption that $\Img T$ is closed is too restricting in some applications (\textbf{add example}). Fortunately, loosening this restriction does not forfeit the uniqueness of the minimal norm solution. However, it does require the additional assumption that a least-squares solution exists at all. 
  
  \textbf{Proposition}: Suppose $\mathbb{L}$ is non-empty. Then the results of the above proposition still hold. 
- 
+ \textbf{NEED TO VERIFY THIS IS ACTUALLY TRUE: SEE EL THM 2.2; I believe it is true and I can use Thm 2.2 and the following corollary to prove it}
  \textit{Proof}: (EL) Let $x^\dagger$ be a minimal norm solution and suppose for a contradiction that $x^\dagger \notin \Ker T$. Since $\Ker T$ is a closed subspace then $X = \Ker T \oplus (\Ker T)^\perp$. Thus, there exists unique vectors $u \in \Ker T$ and $u^\perp \in (\Ker T)^\perp$ satisfying $x^\dagger = u + u^\perp$. Since $\norm{Tu^\perp - y}_X = \norm{T(x - u) - y}_X = \norm{Tx - y}_X$, it follows that $u^\perp \in \mathbb{L}$. Then, \[\norm{x^\perp}_{X}^{2} = \norm{u + u^\perp}_{X}^{2} = \norm{u}_{X}^{2} + \norm{u^\perp}_{X}^{2} > \norm{u^\perp}_{X}^{2}\]
  which contradicts $x^\dagger$ being a minimal norm solution. 
  
@@ -164,6 +166,31 @@ To obtain the normal equations, consider:
                                                             &\iff T^*T\hat{x} = T^*y                                                            
 \end{align*} 
 where the first step uses the above portion of the proof and the remainder utilize the basic properties of the adjoint and inner product. $\qquad \blacksquare$
+ 
+ \subsection{Finding Minimal Norm Solutions} \hfill \\
+ 
+ In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. We now turn our attention to developing techniques to find this solution. The standard tool in this effort is the \textit{Moore-Penrose pseudoinverse}. As we are not guaranteed a unique least-squares solution, the standard concept of an ``inverse'' does not apply. However, we now observe the utility of having proved results that guarantee a unique minimal norm solution, which allows us to generalize the inverse as an operator that maps to such solutions. 
+ 
+ \textbf{Definition}: For $T \in B(X, Y)$, define $\tilde{T}$ to be the restriction of $T$ to $(\Ker T)^\perp$. The \textit{Moore-Penrose psuedoinverse} $T^\dagger : (\Img T) \oplus (\Img T)^\perp \to Y$ is then defined as follows: 
+ \begin{itemize} 
+ \item For all $y \in \Img T$, $T^\dagger y := T^{-1}y$
+ \item $T^\dagger$ is extended to $(\Img T) \oplus (\Img T)^\perp$ by requiring that $T^\dagger$ is linear and satisfies $T^\dagger y^\perp = 0$ for all $y^\perp \in (\Img T)^\perp$
+ \end{itemize} 
+ 
+Note that by definition $\tilde{T}$ has a trivial null space and we are therefore justified in talking about its inverse. Recall from \textbf{prop num} that the requirement $y \in (\Img T) \oplus (\Img T)^\perp$ guaranteed uniqueness of the minimal norm solution. It is therefore unsurprising that we define the domain of $T^\dagger$ to be $(\Img T) \oplus (\Img T)^\perp$. In particular, if $\Img T$ is closed then $T^\dagger$ is defined on all of $Y$. While the above definition may seem cryptic, the next result shows that it addresses our problem of finding minimal norm solutions.
+
+\textbf{Proposition}: Let $y \in (\Img T) \oplus (\Img T)^\perp$. Then $T^\dagger y$ is the minimal norm solution of the least-squares problem. 
+
+\smallskip 
+
+\textit{Proof}: By \textbf{prop num}, a unique minimal norm solution exists. There are unique $\hat{y} \in \Img T$ and $y^\perp \in (\Img T)^\perp$ such that $y = \hat{y} + y^\perp$. Since $y - \hat{y} \perp \Img T$ it follows from the projection theorem (Luenberger 3.3 Theorem 1) that $\hat{y} = \argmin_{y^\prime \in \Img T} \norm{y^\prime - y}_Y$. By definition of $T^\dagger$, we have \[T^\dagger y = T^\dagger \hat{y} = \tilde{T}^{-1}\hat{y}\]
+ Applying $T$ to both sides, \[T(T^\dagger y) = \hat{y}\]
+ Thus $T^\dagger y \in \mathbb{L}$. By definition $T^\dagger y \in (\Ker T)^\perp$ so $T^\dagger y$ is the minimal norm solution (\textbf{prop num}). $\qquad \blacksquare$
+ 
+ 
+ 
+ 
+ 
  
  
 
