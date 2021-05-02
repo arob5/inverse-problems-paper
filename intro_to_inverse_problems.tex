@@ -131,5 +131,40 @@ Hilbert space provides a natural setting in which to study inverse problems. Fro
  \end{align*}  
  
  Therefore, $ \mathbb{L}$ is a translation of the closed subspace $\Ker T$. It then follows immediately from Luenberger 3.10 Theorem 3 that there exists a unique $x^\dagger \in \mathbb{L}$ of minimal norm, and moreover that $x^\dagger$ is orthogonal to $\Ker T$. $\qquad \blacksquare$
+ 
+ While the above proof is illustrative, the assumption that $\Img T$ is closed is too restricting in some applications (\textbf{add example}). Fortunately, loosening this restriction does not forfeit the uniqueness of the minimal norm solution. However, it does require the additional assumption that a least-squares solution exists at all. 
+ 
+ \textbf{Proposition}: Suppose $\mathbb{L}$ is non-empty. Then the results of the above proposition still hold. 
+ 
+ \textit{Proof}: (EL) Let $x^\dagger$ be a minimal norm solution and suppose for a contradiction that $x^\dagger \notin \Ker T$. Since $\Ker T$ is a closed subspace then $X = \Ker T \oplus (\Ker T)^\perp$. Thus, there exists unique vectors $u \in \Ker T$ and $u^\perp \in (\Ker T)^\perp$ satisfying $x^\dagger = u + u^\perp$. Since $\norm{Tu^\perp - y}_X = \norm{T(x - u) - y}_X = \norm{Tx - y}_X$, it follows that $u^\perp \in \mathbb{L}$. Then, \[\norm{x^\perp}_{X}^{2} = \norm{u + u^\perp}_{X}^{2} = \norm{u}_{X}^{2} + \norm{u^\perp}_{X}^{2} > \norm{u^\perp}_{X}^{2}\]
+ which contradicts $x^\dagger$ being a minimal norm solution. 
+ 
+ \smallskip 
+ 
+\textbf{Must show existence} 
+
+\medskip
+
+The following theorem generalizes the well-known normal equations to infinite-dimensional spaces. 
+
+\textbf{Theorem}: $\hat{x} \in \mathbb{L}$ if and only if $T^* T\hat{x} = T^* y$. In this case $T\hat{x} - y \in (\Img T)^\perp$. \\[.1cm] 
+
+\textit{Proof}: (L and S) First note that $\inf_{x \in X} \norm{Tx - y}_Y = \inf_{y^\prime \in \Img T} \norm{y^\prime - y}_Y$. By the projection theorem (Luenberger 3.3 Theorem 1) we have \[\hat{y} = \inf_{y^\prime \in \Img T} \norm{y^\prime - y}_Y \iff \hat{y} - y \perp \Img T\] 
+The orthogonality condition follows from the fact that $\hat{x} \in \mathbb{L}$ if and only if $T\hat{x} = \hat{y}$. 
+
+\smallskip
+
+To obtain the normal equations, consider: 
+\begin{align*} 
+\hat{x} = \inf_{x \in X} \norm{Tx - y}_X &\iff (T\hat{x} - y) \perp \Img T \\
+                                                            &\iff (T\hat{x} - y| Tx) = 0 \ \forall x \in X \\
+                                                            &\iff (T^*(T\hat{x} - y)| x) = 0 \ \forall x \in X \\
+                                                            &\iff (T^*T\hat{x} - T^*y| x) = 0 \ \forall x \in X \\
+                                                            &\iff T^*T\hat{x} - T^*y = 0 \\
+                                                            &\iff T^*T\hat{x} = T^*y                                                            
+\end{align*} 
+where the first step uses the above portion of the proof and the remainder utilize the basic properties of the adjoint and inner product. $\qquad \blacksquare$
+ 
+ 
 
 \end{document} 
