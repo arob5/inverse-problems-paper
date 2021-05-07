@@ -37,6 +37,9 @@
 % Specifically for paper formatting 
 \renewcommand{\baselinestretch}{1.2} % Spaces manuscript for easy reading
 
+% Formatting definitions (use \begin{definition} \end{definition})
+\newtheorem*{definition}{Definition}
+
 
 \begin{document}
 
@@ -103,14 +106,39 @@ vague regarding specific properties of the map $F$ or spaces $X$ and $Y$. Indeed
 placed on these objects lead to drastically different avenues of analysis and conceptual interpretations
 of inverse problems. 
 
-\paragraph{Ill-Posedness}
+\paragraph*{Ill-Posedness}
 
-If all real-world examples of inverse problems admitted straightforward representations as in \ref{matrix_eqn}
+If all real-world examples of inverse problems admitted straightforward representations as in equation \ref{matrix_eqn}
 then the field of inverse problem theory would not exist. The essence of the field is in developing methods to 
-deal with the difficult cases. The following definition highlights the central difficulties that can occur, 
+deal with the so-called ``ill-posed'' cases. The following definition makes this notion concrete, 
 and motivates much of the theory discussed in this paper. 
 
+\begin{definition} 
+(Hadamard's Conditions)The inverse problem given by equation \ref{inverse_problem} is well-posed in the sense of Hadamard 
+provided it satisfies the three following conditions:
+\begin{enumerate} 
+\item (Existence) A solution always exists; that is, given any $y \in Y$ there exists an $x \in X$ such that $F(x) = y$. 
+\item (Uniqueness) The solution is unique; that is, if $F(x_1) = F(x_2)$ then $x_1 = x_2$.
+\item (Stability) The solution is a continuous function of the input data; that is, if $F(x_n) \to y$  then $x_n \to x$
+\end{enumerate} 
+If any of these conditions are not met, the problem is called ill-posed. 
+\end{definition} 
 
+Given that the central task in studying inverse problems is to mitigate ill-posedness, it is worthwhile to make some comments here. 
+Violations of the first two conditions are typically handled by 
+instead seeking the ``closest'' solution in some sense; that is, by reformulating the problem as a minimum norm problem: 
+
+\begin{equation}
+\argmin_{x \in X} \norm{F(x) - y} \label{min_norm}
+\end{equation}
+
+ The violation of stability presents a more difficult challenge. In general we imagine $y$ to be data measured imprecisely. 
+ Therefore, the concern is that small fluctuations in the observations $y$ may lead to large deviations in $x$. 
+Our goal is to minimize the \textit{forward error} $\norm{x - x_0}$, where $x_0$ is some unknown true solution. However, 
+given that we don't know $x_0$, we must instead focus our efforts on minimizing the \textit{backward error}, $\norm{F(x) - y}$. 
+Stated in this terminology, the stability condition means that small backward errors imply small forward errors. 
+
+ Regularization methods form the foundation of the toolkit used to address this problem and will be discussed later in this paper. 
 
 
 
@@ -127,7 +155,8 @@ and Bayesian inverse problems.
 Give some examples and talk briefly about the close connection with differential equations. 
 
 It is important to note that these assumptions are not mutually exclusive; the realities of specific applications
-may necessitate various sets of assumptions. 
+may necessitate various sets of assumptions.
+
 
 
 
@@ -143,25 +172,8 @@ may necessitate various sets of assumptions.
 \subsection{Introduction} \hfill \\
  
 
-\subsection{Ill-Posed Problems} \hfill \\
-The following definition highlights the central difficulties in studying inverse problems, and motivates much of the theory discussed in this paper. \\
 
 
-\textbf{Definition} \textit{Hadamard's Conditions for Well-Posedness}: (EL) Problem (1.1) is \textit{well-posed} in the sense of Hadamard provided it meets the three following conditions: 
-\begin{enumerate} 
-\item (Existence) A solution always exists; that is, given any $y \in Y$ there exists an $x \in X$ such that $F(x) = y$. 
-\item (Uniqueness) The solution is unique; that is, if $F(x_1) = F(x_2)$ then $x_1 = x_2$.
-\item (Stability) The solution is a continuous function of the input data; that is, if $F(x_n) \to y$  then $x_n \to x$ \\
-If any of these conditions are not met, the problem is called \textit{ill-posed}. 
-\end{enumerate} 
-
-The treatment of of ill-posedness is the primary focus in the study of inverse problems, in particular the development of techniques to handle violations of the third condition. Violations of the first two conditions are typically handled by instead seeking the ``closest'' solution in some sense; that is, by reformulating the problem as a minimum norm problem: 
-
-\begin{align*}
-&\argmin_{x \in X} \norm{F(x) - y}
-\end{align*}
- 
- The violation of stability presents a more difficult challenge. In general we imagine $y$ to be data measured imprecisely. Therefore, the concern is that small fluctuations in the observations $y$ may lead to large deviations in $x$. Regularization methods form the foundation of the toolkit used to address this problem and will be discussed later in this paper. 
  
  \subsection{Theoretical Framework} \hfill \\
  
