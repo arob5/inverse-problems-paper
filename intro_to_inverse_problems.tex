@@ -79,7 +79,9 @@ work through the mathematics together.
 Whatever voice you choose, consistency is important.
 
 
-\subsection*{Introduction to Inverse Problems} 
+\section{Introduction to Inverse Problems} 
+
+\subsection{Motivation}
 Students of linear algebra may recall the prominence of the matrix equation
 \begin{equation} 
 Ax = b. \label{matrix_eqn}
@@ -106,15 +108,15 @@ vague regarding specific properties of the map $F$ or spaces $X$ and $Y$. Indeed
 placed on these objects lead to drastically different avenues of analysis and conceptual interpretations
 of inverse problems. 
 
-\paragraph*{Ill-Posedness}
+\subsection{Ill-Posedness}
 
-If all real-world examples of inverse problems admitted straightforward representations as in equation \ref{matrix_eqn}
+If all real-world examples of inverse problems admitted straightforward representations as in equation \eqref{matrix_eqn}
 then the field of inverse problem theory would not exist. The essence of the field is in developing methods to 
 deal with the so-called ``ill-posed'' cases. The following definition makes this notion concrete, 
 and motivates much of the theory discussed in this paper. 
 
 \begin{definition} 
-(Hadamard's Conditions)The inverse problem given by equation \ref{inverse_problem} is well-posed in the sense of Hadamard 
+(Hadamard's Conditions)The inverse problem given by equation \eqref{inverse_problem} is well-posed in the sense of Hadamard 
 provided it satisfies the three following conditions:
 \begin{enumerate} 
 \item (Existence) A solution always exists; that is, given any $y \in Y$ there exists an $x \in X$ such that $F(x) = y$. 
@@ -138,76 +140,72 @@ Our goal is to minimize the \textit{forward error} $\norm{x - x_0}$, where $x_0$
 given that we don't know $x_0$, we must instead focus our efforts on minimizing the \textit{backward error}, $\norm{F(x) - y}$. 
 Stated in this terminology, the stability condition means that small backward errors imply small forward errors. 
 
- Regularization methods form the foundation of the toolkit used to address this problem and will be discussed later in this paper. 
+ Regularization methods form the foundation of the toolkit used to address instability and will be discussed later in this paper. 
 
+\subsection{Theoretical Framework}
 
+Hilbert space provides a natural setting in which to study inverse problems. From a theoretical point of view, the structure provided by 
+inner products leads to relatively simple characterizations of solutions, while practically, many real-world inverse problems may 
+naturally be formulated in such settings. Therefore, throughout this paper, we consider the inverse problem \eqref{inverse_problem}
+where $X$ and $Y$ are assumed to be real Hilbert spaces with respective inner products $(\cdot | \cdot)_X$ and $(\cdot | \cdot)_Y$. 
+Moreover, we assume $F$ to be a bounded linear operator between these spaces. 
 
-Before introducing the assumptions that will guide the remainder of this paper, I briefly
-state two alternative viewpoints that will not be discussed here. 
+It is important to note that while we have restricted ourselves to these assumptions, inverse problems can be formulated in many 
+other settings. Perhaps the most notable omission here is any sort of statistical treatment. It is common to treat $X$ and $Y$ as
+probability spaces and $x$ and $y$ as random variables. In this setting, the given ``data'' is the conditional random variable 
+$y|x$, and solving the inverse problem means estimating the random variable $x|y$. While such a formulation is common, this 
+paper will treat the solution of \eqref{inverse_problem} as purely deterministic.  
 
-\paragraph*{Statistical Estimation}
-
-Introduce the concept of residuals and give the statistical interpretation. Then talk about regularization briefly
-and Bayesian inverse problems. 
-
-\paragraph*{Non-linear Problems}
-
-Give some examples and talk briefly about the close connection with differential equations. 
-
-It is important to note that these assumptions are not mutually exclusive; the realities of specific applications
-may necessitate various sets of assumptions.
-
-
-
-
-\textbf{TODO}
-\begin{enumerate} 
-\item Brief history of field
-\item Purpose/overview of paper
-\item Organization of paper
-\end{enumerate} 
-
-\section{Inverse Problems}
-
-\subsection{Introduction} \hfill \\
+ \subsection{Examples}
  
-
-
-
+ An abstract, general formulation of inverse problems may not initially appear useful. 
+ However, it soon becomes clear that the generality allows these techniques to be 
+ applied to a wide array of problems across various fields. Many of these applications 
+ are naturally formulated in infinite-dimensional vector spaces, and moreover suffer from
+  ill-posedness. I provide three examples below of such applications. 
  
- \subsection{Theoretical Framework} \hfill \\
+ \paragraph*{Statistical Estimation}
+ Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics 
+ and machine learning, may be formulated as an inverse problem. In this case we view 
+ $F_\theta$ as a model or process that depends on some parameters $\theta$. We may
+  alternatively view $\theta$ as an additional input to the system, in which case $F$ acts 
+  on both the parameters and input data to produce the observed outputs; that is, 
+  $F(\theta, x) = y$. The problem thus becomes: given observed outputs $y$ and inputs $x$, 
+  estimate the parameters $\theta$ of the underlying process $F$. 
+  
+  \paragraph*{Differentiation}
  
- \subsection{Examples} \hfill \\
- An abstract, general formulation of inverse problems may not initially appear useful. However, it soon becomes clear that the generality allows these techniques to be applied to a wide array of problems across various fields. Many of these applications are naturally formulated in infinite-dimensional vector spaces, and moreover suffer from ill-posedness. I provide three examples below of such applications. 
- 
- \subsubsection{Statistical Estimation} \hfill \\
- Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics and machine learning, may be formulated as an inverse problem. In this case we view $F_\theta$ as a model or process that depends on some parameters $\theta$. We may alternatively view $\theta$ as an additional input to the system, in which case $F$ acts on both the parameters and input data to produce the observed outputs; that is, $F(\theta, x) = y$. The problem thus becomes: given observed outputs $y$ and inputs $x$, estimate the parameters $\theta$ of the underlying process $F$. 
- 
- \section{Preliminaries: Operator Theory and Probability}
- This paper assumes basic knowledge of the major results in the study of Banach and Hilbert Spaces, including the basic theory of linear maps between such spaces. However, 
+ \textbf{TODO: Add two more examples}
  
  
- However, no background in operator theory is assumed. Given how intertwined the study of inverse problems is with the study of operators, all of the needed results are detailed here. Proofs are provided when deemed useful, with some being relegated to the appendix. 
+ \section{Preliminaries: Operator Theory}
+ This paper assumes prior knowledge of Hilbert spaces, including the basic theory of bounded 
+ linear maps between such spaces. However, the adjoint operator, which is of central importance 
+ to the study of inverse problems, is treated from scratch. As a notational note, $B(X, Y)$ denotes the space of all bounded
+ (or equivalently, continuous) linear operators from $X$ to $Y$. For $F \in B(X, Y)$ we write $\norm{F}$
+ to refer to the operator norm of $F$. $\mathcal{R}(F)$ and $\mathcal{N}(F)$ refer to the range and 
+ null space of $F$, respectively.  
  
- \subsection{Operator Theory} \hfill \\
- Throughout this paper, all vector spaces are assumed to be real. 
- 
- \textbf{Definition}: A \textit{map} $F: X \to Y$ is function mapping between two vector spaces $X$ and $Y$, called the \textit{domain} and \textit{codomain}, respectively. If $F$ maps $x \in X$ to $y \in Y$ I write $F(x) = y$. I denote by $\Img F$ the set of all $y \in Y$ such that there is an $x \in X$ with $F(x) = y$. I denote by $\Ker F$ the set of all $x \in X$ that map to the zero vector $0 \in Y$. Letting $U \subset Y$, I define the \textit{inverse image} (or \textit{pre-image}) $F^{-1}(V)$ to be the set of all $x \in X$ satisfying $F(x) \in V$. 
- 
- Throughout this paper, we restrict our attention to the study of linear inverse problems. Therefore, the following definition is central to the theory. 
- 
- \textbf{Definition}: A \textit{linear map} (or \textit{operator}) is a map $F: X \to Y$ satisfying $F(\alpha_1x_1 + \alpha_2x_2) = \alpha_1F(x_1) + \alpha_2F(x_2)$ for all real numbers $\alpha_1, \alpha_2$ and vectors $x_1, x_2 \in X$. When a map is linear, I suppress the parentheses and write function evaluation as $Fx := F(x)$. 
+ With this notation established, we may introduce a key operator in inverse problem theory. 
+ \begin{definition} 
+ (Adjoint) Let $F \in B(X, Y)$. Then the adjoint operator of $F$, $F^*: Y \to X$, is defined by 
+ 	\begin{equation*} 
+	(Ax|y)_Y = (x|A^*y)_X
+ 	\end{equation*} 
+	for all $x \in X$, $y \in Y$. 
+ \end{definition} 
+To justify this definition, consider the bounded linear functional $f_y(x) = (Ax|y)_Y$. By the Riesz representation theorem (Royden) 
+there is a unique $x_y \in X$ satisfying $f_y(x) = (x|x_y)_X$ for all $x \in X$; that is, $(Ax|y)_Y = (x|x_y)_X$. 
+We thus define $A^*y := x_y$. The adjoint helps to encode orthogonality relations between the spaces $X$ and $Y$. 
+It may be interpreted as a generalization of the transpose operator for real-valued matrices; indeed, if $A \in \mathbb{R}^{n \times m}$, 
+then $A^* = A^\prime$. The following three propositions outline the fundamental properties of adjoints that will leveraged throughout
+this paper. 
 
-In a manner similar to linear functional theory, it can be shown that the space of linear maps from $X$ to $Y$ is a vector space. Moreover, if $X$ and $Y$ are normed spaces we may define a norm on this space in similar fashion. 
-
-\textbf{Definition}: Let $F$ be a linear map between normed linear spaces $X$ and $Y$. Define the norm of $F$ $\norm{F} := \sup_{x \neq \theta} \frac{\norm{Fx}}{x}$. 
-
-It can, of course, be shown that this does indeed define a norm on this space. 
 
 
 \section{Linear Inverse Problems in Hilbert Space}
 
-Hilbert space provides a natural setting in which to study inverse problems. From a theoretical point of view, the rich theory of Hilbert space leads to relatively simple characterizations of solutions, while practically, many real-world inverse problems may naturally be formulated in such settings. \textbf{Insert example here that uses sum of squares norm}. Throughout this section, $X$ and $Y$ are assumed to be real Hilbert spaces with respective inner products $(\cdot | \cdot)_X$ and $(\cdot | \cdot)_Y$. Recall from section \textbf{2} that the natural approach to address the non-existence and non-uniqueness of $Tx = y$ was to consider the least-squares problem $\inf_{x \in X} \norm{Tx - y}_Y$. If we assume that $\Img T \subset Y$ is closed, this guarantees the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y$ on $\Img T$. However, we have not assumed that $T$ is injective and hence this does not imply the uniqueness of a least-squares solution. Therefore, we must study the set of all least-squares solutions, with an emphasis on the solution of minimal norm. 
+ Recall from section \textbf{2} that the natural approach to address the non-existence and non-uniqueness of $Tx = y$ was to consider the least-squares problem $\inf_{x \in X} \norm{Tx - y}_Y$. If we assume that $\Img T \subset Y$ is closed, this guarantees the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y$ on $\Img T$. However, we have not assumed that $T$ is injective and hence this does not imply the uniqueness of a least-squares solution. Therefore, we must study the set of all least-squares solutions, with an emphasis on the solution of minimal norm. 
 
 \subsection{Characterization of Solutions}
 
