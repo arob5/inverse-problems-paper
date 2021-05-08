@@ -37,8 +37,9 @@
 % Specifically for paper formatting 
 \renewcommand{\baselinestretch}{1.2} % Spaces manuscript for easy reading
 
-% Formatting definitions (use \begin{definition} \end{definition})
+% Formatting definitions, propositions, etc. 
 \newtheorem*{definition}{Definition}
+\newtheorem*{prop}{Proposition}
 
 
 \begin{document}
@@ -200,6 +201,33 @@ We thus define $A^*y := x_y$. The adjoint helps to encode orthogonality relation
 It may be interpreted as a generalization of the transpose operator for real-valued matrices; indeed, if $A \in \mathbb{R}^{n \times m}$, 
 then $A^* = A^\prime$. The following three propositions outline the fundamental properties of adjoints that will leveraged throughout
 this paper. 
+
+\begin{prop} 
+Let $F \in B(X, Y)$. Then $F^* \in B(Y, X)$ and $\norm{F^*} = \norm{F}$. 
+\end{prop}
+
+\begin{proof} 
+The linearity of $F^*$ follows directly from the definition of the adjoint and the linearity of the inner product. 
+\begin{align*} 
+(x|F^*(\alpha_1 y_1 + \alpha_2 y_2))_X &= (Fx|\alpha_1 y_1 + \alpha_2 y_2)_Y \\
+                                                               &= \alpha_1(Fx|y_1)_Y + \alpha_2(Fx|y_2)_Y \\
+                                                               &= \alpha_1(x|F^*y_1)_X + \alpha_2(x|F^*y_2)_X \\
+                                                               &= (x|\alpha_1 F^*y_1 + \alpha_2 F^*y_2)_X
+\end{align*} 
+To show that $F^*$ is bounded, let $y \in Y$ be non-zero and apply the Cauchy-Schwarz inequality to obtain,
+\begin{align*} 
+\norm{F^*y}^2_X = (F^*y|F^*y)_X = (F(F^*y)|y)_Y &\leq \norm{F(F^*y)}_Y\norm{y}_Y \\
+                                                                               &\leq \norm{F}\norm{F^*y}_X\norm{y}_Y
+\end{align*}
+Thus, $\norm{F^*y}_X \leq \norm{F}\norm{y}_Y$ for all non-zero $y \in Y$ and therefore $\norm{F^*} \leq \norm{F}$. 
+This verifies $F^* \in B(Y, X)$. By similar reasoning, we obtain the reverse inequality. 
+\begin{align*} 
+\norm{Fx}^2_Y = (Fx|Fx)_Y = (x|F^*(Fx))_X &\leq \norm{F^*(Fx)}_X\norm{x}_X \\
+                                                                      &\leq \norm{F^*}\norm{Fx}_Y\norm{x}_X
+\end{align*}
+Therefore, $\norm{Fx} \leq \norm{F^*}\norm{x}_X$ for all non-zero $x \in X$ and so $\norm{F} \leq \norm{F^*}$. 
+Thus, $\norm{F} = \norm{F^*}$
+\end{proof} 
 
 
 
