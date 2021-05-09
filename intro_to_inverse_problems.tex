@@ -257,6 +257,24 @@ same line of reasoning. For the third result, we know $F^{**}: X \to Y$ so
 which shows $F^{**} = F$.
 \end{proof} 
 
+Recall from linear algebra that if $A \in \mathbb{R}^{n x m}$, then the row space of $A$ is orthogonal to 
+the null space, and similarly the column space is orthogonal to the null space of $A^\prime$. The following
+result generalizes this idea to Hilbert space, replacing the transpose with the adjoint. 
+
+\begin{prop} 
+Let $F \in B(X, Y)$. Then, 
+\begin{itemize} 
+\item $\mathcal{R}(F)^\perp = \mathcal{N}(F^*)$
+\item $\overline{\mathcal{R}(F)} = \mathcal{N}(F^*)^\perp$
+\item $\mathcal{R}(F^*)^\perp = \mathcal{N}(F)$
+\item $\overline{\mathcal{R}(F^*)} = \mathcal{N}(F)^\perp$
+\end{itemize} 
+\end{prop} 
+
+
+To conclude our introduction to the adjoint, we prove a result that more closely aligns with our goal of studying 
+linear inverse problems. The restrictive assumption that the equation is consistent will be dropped in section
+\textbf{section num}, where this result will be generalized to least-squares problems. 
 
 
 
