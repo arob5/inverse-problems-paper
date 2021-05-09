@@ -244,15 +244,15 @@ Let $F, G \in B(X, Y)$ and $\alpha \in \mathbb{R}$. Then,
 \begin{proof} 
 The first result follows from definition of adjoint and linearity of the inner product. 
 \begin{align*} 
-(x|(F + G)^*y) &= ((F + G)x|y) \\
-                       &= (Fx|y) + (Gx|y) \\
-                       &= (x|F^*y) + (x|G^*y) \\
-                       &= (x|F^*y + G^*y)
+(x|(F + G)^*y)_X &= ((F + G)x|y)_Y \\
+                           &= (Fx|y)_Y + (Gx|y)_Y \\
+                           &= (x|F^*y)_X + (x|G^*y)_X \\
+                           &= (x|F^*y + G^*y)_X
 \end{align*} 
 Since $x$ and $y$ are arbitrary, this shows $(F + G)^* = F^* + G^*$. The second result follows from the 
 same line of reasoning. For the third result, we know $F^{**}: X \to Y$ so 
 \begin{equation*} 
-(F^{**}x|y) = (x|F^*y) = (Fx|y)
+(F^{**}x|y)_Y = (x|F^*y)_X = (Fx|y)_Y
 \end{equation*} 
 which shows $F^{**} = F$.
 \end{proof} 
@@ -271,10 +271,44 @@ Let $F \in B(X, Y)$. Then,
 \end{itemize} 
 \end{prop} 
 
+\begin{proof} 
+Let $y^\prime \in \mathcal{N}(F^*)$ and $y \in \mathcal{R}(F)$. Then there exists $x \in X$
+such that $Fx = y$. Then \[(Fx|y^\prime)_Y = (x|F^*y^\prime)_X = (x|0)_X = 0\]
+so $\mathcal{N}(F^*) \subset \mathcal{R}(F)^\perp$. Now let $y^\perp \in \mathcal{R}(F)^\perp$. 
+Then for any $x \in X$, \[(x|F^*y^\perp)_X = (Fx|y^\perp)_Y = 0\]
+which implies $F^*y^\perp = 0$, or $y^\perp \in \mathcal{N}(F)$. 
+Thus, $\mathcal{R}(F)^\perp = \mathcal{N}(F^*)$. Taking orthogonal complements, we obtain 
+\[\mathcal{R}(F)^{\perp\perp} = \mathcal{N}(F^*)^\perp\]
+or 
+\[\overline{\mathcal{R}(F)} = \mathcal{N}(F^*)^\perp\]
+The remaining two equalities follow directly from the fact that $F^{**} = F$. 
+\end{proof} 
+
+
+Note that if we assume the range of $F$ is closed then we may drop the closure in the second and third
+results above. 
 
 To conclude our introduction to the adjoint, we prove a result that more closely aligns with our goal of studying 
 linear inverse problems. The restrictive assumption that the equation is consistent will be dropped in section
 \textbf{section num}, where this result will be generalized to least-squares problems. 
+\begin{prop} 
+Let $F \in B(X, Y)$ with $\mathcal{R}(F) \subset Y$ closed. Assume there is at least one $x \in X$ satisfying
+$Fx = y$. Then the vector $x^\dagger$ of minimum norm satisfying this equation is given by 
+$x^\dagger = F^*y^\prime$, where $y^\prime$ is a solution of $FF^*y^\prime = y$. 
+\end{prop} 
+
+\begin{proof} 
+Let $x \in X$ be any fixed solution to $Fx = y$. Then any vector of the form $x + k$, where $k \in \mathcal{N}(F)$, 
+is also a solution. To show that this accounts for all possible solutions, let $x^\prime$ be another solution. 
+This implies $F(x^\prime - x) = 0$ so $x^\prime - x \in \mathcal{N}(F)$ and thus $x^\prime$ must also be of the form 
+$x + k$. Now that we have characterized the set of possible solutions, we must show how to select the solution
+of minimal norm. The existence of such a unique solution follows from $\mathcal{N}(F)$ being a closed subspace, 
+which implies the set of solutions to $Fx = y$ is a closed subspace. It then follows that the unique vector $x^\dagger$
+of minimum norm is orthogonal to $\mathcal{N}(F)$ (Luenberger 1969, p. 64). From the previous proof and the assumption
+that $F$ has closed range, \[x^\dagger \in \mathcal{N}(F)^\perp = \overline{\mathcal{R}(F^*)} = \mathcal{R}(F^*)\]
+Therefore, there exists $y^\prime \in Y$ satisfying $F^*y^\prime = x^\dagger$. Since $x^\dagger$ is a solution of 
+the original equation, we obtain $FF^*y^\prime = y$. 
+\end{proof} 
 
 
 
@@ -358,10 +392,10 @@ Note that by definition $\tilde{T}$ has a trivial null space and we are therefor
  Thus $T^\dagger y \in \mathbb{L}$. By definition $T^\dagger y \in (\Ker T)^\perp$ so $T^\dagger y$ is the minimal norm solution (\textbf{prop num}). $\qquad \blacksquare$
  
  
- 
- 
- 
- 
- 
+\begin{thebibliography}{20}
 
+\bibitem{Luenberger}  Luenberger, David G., \textit{Optimization by Vector Space Methods}. Wiley, 1969. 
+
+\end{thebibliography}
+ 
 \end{document} 
