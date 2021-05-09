@@ -229,6 +229,35 @@ Therefore, $\norm{Fx} \leq \norm{F^*}\norm{x}_X$ for all non-zero $x \in X$ and 
 Thus, $\norm{F} = \norm{F^*}$
 \end{proof} 
 
+The first two results in the following proposition tell us that the adjoint is a linear map from $B(X, Y)$
+to $B(Y, X)$.
+
+\begin{prop} 
+Let $F, G \in B(X, Y)$ and $\alpha \in \mathbb{R}$. Then,
+\begin{itemize}
+\item $(F + G)^* = F^* + G^*$
+\item $(\alpha F)^* = \alpha F^*$
+\item $F^{**} = F$
+\end{itemize}  
+\end{prop}
+
+\begin{proof} 
+The first result follows from definition of adjoint and linearity of the inner product. 
+\begin{align*} 
+(x|(F + G)^*y) &= ((F + G)x|y) \\
+                       &= (Fx|y) + (Gx|y) \\
+                       &= (x|F^*y) + (x|G^*y) \\
+                       &= (x|F^*y + G^*y)
+\end{align*} 
+Since $x$ and $y$ are arbitrary, this shows $(F + G)^* = F^* + G^*$. The second result follows from the 
+same line of reasoning. For the third result, we know $F^{**}: X \to Y$ so 
+\begin{equation*} 
+(F^{**}x|y) = (x|F^*y) = (Fx|y)
+\end{equation*} 
+which shows $F^{**} = F$.
+\end{proof} 
+
+
 
 
 \section{Linear Inverse Problems in Hilbert Space}
