@@ -41,7 +41,7 @@
 % Formatting definitions, propositions, etc. 
 \newtheorem*{definition}{Definition}
 \newtheorem*{prop}{Proposition}
-
+\newtheorem*{lemma}{Lemma}
 
 \begin{document}
 
@@ -381,7 +381,29 @@ To obtain the normal equations, consider:
 where the first step uses the above portion of the proof and the others utilize the basic properties of the adjoint and inner product.
 \end{proof} 
 
- 
+In the above results, we rely on the assumption that $\R(F)$ is closed to guarantee the existence of least-squares solutions. 
+However, there are many examples in infinite-dimensional spaces where this assumption does not hold. If $\R(F)$ is not closed, 
+we cannot guarantee the existence of a solution to \eqref{linear_least_squares} for every $y \in Y$, but we can restrict ourselves to 
+consider the maximal subset of $Y$ that always admits a least-squares solution. The following three results generalize the above 
+results by discarding the assumption that $\R(F)$ is closed and instead restricting our attention to this maximal subset. 
+
+\begin{lemma} 
+If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
+\end{lemma} 
+
+\begin{proof} 
+By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
+additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
+by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
+$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
+operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
+as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
+the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
+\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
+which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
+\end{proof} 
+
+
  \subsection{Finding Minimal Norm Solutions}
  
 In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. 
