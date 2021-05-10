@@ -183,13 +183,13 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
  % Section 2: Preliminaries
  \section{Preliminaries: Operator Theory} \label{preliminaries}
  This paper assumes prior knowledge of Hilbert spaces, including the basic theory of bounded 
- linear maps between such spaces. However, the adjoint operator, which is of central importance 
- to the study of inverse problems, is treated from scratch. As a notational note, $B(X, Y)$ denotes the space of all bounded
+ linear maps between such spaces. However, the adjoint and projection operators, which are of central importance 
+ to the study of inverse problems, are treated from scratch. As a notational note, $B(X, Y)$ denotes the space of all bounded
  (or equivalently, continuous) linear operators from $X$ to $Y$. For $F \in B(X, Y)$ we write $\norm{F}$
  to refer to the operator norm of $F$. $\mathcal{R}(F)$ and $\mathcal{N}(F)$ refer to the range and 
  null space of $F$, respectively.  
  
- With this notation established, we may introduce a key operator in inverse problem theory. 
+\subsection{Adjoints}
  \begin{definition} 
  (Adjoint) Let $F \in B(X, Y)$. Then the adjoint operator of $F$, $F^*: Y \to X$, is defined by 
  	\begin{equation*} 
@@ -312,6 +312,42 @@ Therefore, there exists $y^\prime \in Y$ satisfying $F^*y^\prime = x^\dagger$. S
 the original equation, we obtain $FF^*y^\prime = y$. 
 \end{proof} 
 
+\subsection{Projections}
+
+\begin{definition} 
+(Projection Operator) Let $M$ be a closed subspace of a Hilbert space $H$. Then each $x \in H$ has a unique
+representation $x = m + m^\perp$, where $m \in M$ and $m \in M^\perp$. The operator $P_M: H \to H$ defined 
+by $P_Mx = m$ is called the projection operator onto $M$. 
+\end{definition}
+
+\begin{prop} 
+If $M \subset H$ is a closed subspace, then: 
+\begin{itemize} 
+\item $P_M \in B(H, H)$
+\item If $M \neq \{0\}$, then $\norm{P_M} = 1$
+\end{itemize} 
+\end{prop}
+
+\begin{proof} 
+For linearity, let $x_1 = m_1 + m_1^\perp$, $x_2 = m_2 + m_2^\perp \in H$ and $\alpha \in \mathbb{R}$. Then 
+$x_1 + x_2 = (m_1 + m_2) + (m_1^\perp + m_2^\perp)$, where the first term is in 
+$M$ and the second in $M^\perp$. Thus, \[P_M (x_1 + x_2) = m_1 + m_1 = P_M x_1 + P_M x_2\]
+$P_M (\alpha x_1) = \alpha P_M x_1$ follows by the same reasoning, so $P_M$ is linear. 
+
+To show that $P_M$ is bounded, we apply the generalized Pythagorean Theorem to conclude: 
+\[\norm{P_M x}_H^2 = \norm{m}_H^2 \leq \norm{m}_H^2 + \norm{m^\perp}_H^2 = \norm{x}_H^2\]
+and therefore $\norm{P_M x}_H \leq \norm{x}_H$ for all $x \in H$ so $P_M$ is bounded. Thus, $P_M \in B(H, H)$
+and $\norm{P_M} \leq 1$. 
+
+For the reverse inequality, since $M \neq \{0\}$ we may select a vector $m \in M$ such that $\norm{m}_H = 1$.
+Then $\norm{P_M m}_H = \norm{m}_H = 1$. This shows $\norm{P_M} \geq 1$. Therefore, $\norm{P_M} = 1$. 
+\end{proof} 
+
+
+
+
+
+
 
 % Section 3: Formulating Linear Inverse Problems in Hilbert Space
 \section{Formulating Linear Inverse Problems in Hilbert Space} \label{formulation}
@@ -337,6 +373,8 @@ then the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y
  \end{itemize} 
 \end{definition} 
 
+\subsubsection{Assuming Closed Range}
+
  Note that in general $\mathbb{L}$ may be empty. The following result relies on the assumption that $\R(F)$ is closed to ensure the existence of a solution. 
  
  \begin{prop}
@@ -359,6 +397,38 @@ If either $X$ or $Y$ is finite-dimensional, then $\R(F)$ is closed and hence sol
 infinite-dimensional spaces where $\R(F)$ is not guaranteed to be closed. In these cases, we will have to concern ourselves
 with the fact that a solution may not exist. 
 
+\subsubsection{Not Assuming Closed Range}
+
+In the above results, we rely on the assumption that $\R(F)$ is closed to guarantee the existence of least-squares solutions. 
+However, there are many examples in infinite-dimensional spaces where this assumption does not hold. If $\R(F)$ is not closed, 
+we cannot guarantee the existence of a solution to \eqref{linear_least_squares} for every $y \in Y$, but we can restrict ourselves to 
+consider the maximal subset of $Y$ that always admits a least-squares solution. The following results generalize the above 
+results by discarding the assumption that $\R(F)$ is closed and instead restricting our attention to this maximal subset. 
+
+\begin{lemma} 
+If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
+\end{lemma} 
+
+\begin{proof} 
+By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
+additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
+by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
+$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
+operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
+as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
+the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
+\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
+which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
+\end{proof} 
+
+With this useful fact established, we may fully characterize $\mathbb{L}$. 
+
+\begin{prop} 
+$\mathbb{L}$ is non-empty (that is, \eqref{linear_least_squares} has a solution) if and only if $y \in \R(F) \oplus \R(F)^\perp$. 
+\end{prop} 
+
+\subsubsection{The Normal Equations}
+
 The following theorem, which provides another useful characterization of least-squares solutions, 
  generalizes the well-known normal equations to infinite-dimensional spaces. 
 
@@ -380,29 +450,6 @@ To obtain the normal equations, consider:
 \end{align*} 
 where the first step uses the above portion of the proof and the others utilize the basic properties of the adjoint and inner product.
 \end{proof} 
-
-In the above results, we rely on the assumption that $\R(F)$ is closed to guarantee the existence of least-squares solutions. 
-However, there are many examples in infinite-dimensional spaces where this assumption does not hold. If $\R(F)$ is not closed, 
-we cannot guarantee the existence of a solution to \eqref{linear_least_squares} for every $y \in Y$, but we can restrict ourselves to 
-consider the maximal subset of $Y$ that always admits a least-squares solution. The following three results generalize the above 
-results by discarding the assumption that $\R(F)$ is closed and instead restricting our attention to this maximal subset. 
-
-\begin{lemma} 
-If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
-\end{lemma} 
-
-\begin{proof} 
-By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
-additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
-by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
-$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
-operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
-as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
-the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
-\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
-which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
-\end{proof} 
-
 
  \subsection{Finding Minimal Norm Solutions}
  
