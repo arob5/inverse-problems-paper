@@ -340,69 +340,73 @@ then the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y
  Note that in general $\mathbb{L}$ may be empty. The following result relies on the assumption that $\R(F)$ is closed to ensure the existence of a solution. 
  
  \begin{prop}
- Suppose $\R(F)$ is closed. Then \eqref{linear_least_squares} has a unique minimal norm least-squares solution $x^\dagger$. Moreover, $x^\dagger \in \N(F)^\perp$.
+ Suppose $\R(F)$ is closed. Then \eqref{linear_least_squares} has a unique minimal norm least-squares solution $x^\dagger$. Moreover, 
+ $x^\dagger \in \N(F)^\perp$ and  $\mathbb{L} = x^\dagger + \N(F)$.
  \end{prop} 
  
 \begin{proof} 
-Since $\mathcal{R}(F)$ is closed, then there exists a unique $\hat{y} \in Y$ satisfying $\hat{y} = \min_{y^\prime \in \R(F)} \norm{y^\prime - y}_{Y}$. Let $\hat{x} \in \mathbb{L}$ such that $F\hat{x} = \hat{y}$ (Luenberger 1969, p. 64). Then, 
+Since $\R(F)$ is closed, there exists a unique $\hat{y} \in Y$ satisfying $\hat{y} = \min_{y^\prime \in \R(F)} \norm{y^\prime - y}_{Y}$. Let $\hat{x} \in \mathbb{L}$ such that $F\hat{x} = \hat{y}$ (Luenberger 1969, p. 64). Then, 
  \begin{align*} 
  \mathbb{L} &= \{x \in X: Fx = \hat{y}\} \\
                    &= \{x \in X: F(x - \hat{x}) = 0\} \\
                    &= \hat{x} + \{x - \hat{x} \in X: F(x - \hat{x}) = 0\} \\
                    &= \hat{x} + \N(F)
  \end{align*} 
- Therefore, $ \mathbb{L}$ is a translation of the closed subspace $\N(F)$. It then follows immediately that there exists a unique $x^\dagger \in \mathbb{L}$ of minimal norm, and moreover that $x^\dagger$ is orthogonal to $\N(F)$ (Luenberger 1969, p. 64).
+ Therefore, $ \mathbb{L}$ is a translation of the closed subspace $\N(F)$. It then follows immediately that there exists a unique $x^\dagger \in \mathbb{L}$ of minimal norm, and moreover that $x^\dagger$ is orthogonal to $\N(F)$ (Luenberger 1969, p. 64). From the above derivation we clearly also have $\mathbb{L} = x^\dagger + \N(F)$
 \end{proof} 
- 
- While the above result is useful in finite-dimensional cases, the assumption that $\R(F)$ is closed is overly restrictive in many 
- infinite-dimensional settings. However, dropping this assumption forfeits the guarantee of the existence of any least-squares
- solution at all. The following result resolves this issue, providing the minimal assumptions that guarantee both the existence of a 
- least-squares solution and uniqueness of the minimal norm solution. 
 
+If either $X$ or $Y$ is finite-dimensional, then $\R(F)$ is closed and hence solutions always exist. However, there are important applications defined in 
+infinite-dimensional spaces where $\R(F)$ is not guaranteed to be closed. In these cases, we will have to concern ourselves
+with the fact that a solution may not exist. 
 
- 
- \textbf{Proposition}: Suppose $\mathbb{L}$ is non-empty. Then the results of the above proposition still hold. 
- \textbf{NEED TO VERIFY THIS IS ACTUALLY TRUE: SEE EL THM 2.2; I believe it is true and I can use Thm 2.2 and the following corollary to prove it}
- \textit{Proof}: (EL) Let $x^\dagger$ be a minimal norm solution and suppose for a contradiction that $x^\dagger \notin \Ker T$. Since $\Ker T$ is a closed subspace then $X = \Ker T \oplus (\Ker T)^\perp$. Thus, there exists unique vectors $u \in \Ker T$ and $u^\perp \in (\Ker T)^\perp$ satisfying $x^\dagger = u + u^\perp$. Since $\norm{Tu^\perp - y}_X = \norm{T(x - u) - y}_X = \norm{Tx - y}_X$, it follows that $u^\perp \in \mathbb{L}$. Then, \[\norm{x^\perp}_{X}^{2} = \norm{u + u^\perp}_{X}^{2} = \norm{u}_{X}^{2} + \norm{u^\perp}_{X}^{2} > \norm{u^\perp}_{X}^{2}\]
- which contradicts $x^\dagger$ being a minimal norm solution. 
- 
- \smallskip 
- 
-\textbf{Must show existence} 
+The following theorem, which provides another useful characterization of least-squares solutions, 
+ generalizes the well-known normal equations to infinite-dimensional spaces. 
 
-\medskip
+\begin{prop} 
+$\hat{x} \in \mathbb{L}$ if and only if $F^* F\hat{x} = F^* y$. In this case $F\hat{x} - y \in \R(F)^\perp$.
+\end{prop} 
 
-The following theorem generalizes the well-known normal equations to infinite-dimensional spaces. 
-
-\textbf{Theorem}: $\hat{x} \in \mathbb{L}$ if and only if $T^* T\hat{x} = T^* y$. In this case $T\hat{x} - y \in (\R(F))^\perp$. \\[.1cm] 
-
-\textit{Proof}: (L and S) First note that $\inf_{x \in X} \norm{Tx - y}_Y = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y$. By the projection theorem (Luenberger 3.3 Theorem 1) we have \[\hat{y} = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y \iff \hat{y} - y \perp \R(F)\] 
-The orthogonality condition follows from the fact that $\hat{x} \in \mathbb{L}$ if and only if $T\hat{x} = \hat{y}$. 
-
-\smallskip
-
+\begin{proof} 
+First note that $\inf_{x \in X} \norm{Tx - y}_Y = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y$. By the projection theorem (Luenberger 3.3 Theorem 1) we have \[\hat{y} = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y \iff \hat{y} - y \perp \R(F)\] 
+The orthogonality condition follows from the fact that $\hat{x} \in \mathbb{L}$ if and only if $F\hat{x} = \hat{y}$. 
 To obtain the normal equations, consider: 
 \begin{align*} 
-\hat{x} = \inf_{x \in X} \norm{Tx - y}_X &\iff (T\hat{x} - y) \perp \R(F) \\
-                                                            &\iff (T\hat{x} - y| Tx) = 0 \ \forall x \in X \\
-                                                            &\iff (T^*(T\hat{x} - y)| x) = 0 \ \forall x \in X \\
-                                                            &\iff (T^*T\hat{x} - T^*y| x) = 0 \ \forall x \in X \\
-                                                            &\iff T^*T\hat{x} - T^*y = 0 \\
-                                                            &\iff T^*T\hat{x} = T^*y                                                            
+\hat{x} = \inf_{x \in X} \norm{Fx - y}_X &\iff (F\hat{x} - y) \perp \R(F) \\
+                                                            &\iff (F\hat{x} - y| Fx) = 0 \ \forall x \in X \\
+                                                            &\iff (F^*(F\hat{x} - y)| x) = 0 \ \forall x \in X \\
+                                                            &\iff (F^*F\hat{x} - F^*y| x) = 0 \ \forall x \in X \\
+                                                            &\iff F^*F\hat{x} - F^*y = 0 \\
+                                                            &\iff F^*F\hat{x} = F^*y                                                            
 \end{align*} 
-where the first step uses the above portion of the proof and the remainder utilize the basic properties of the adjoint and inner product. $\qquad \blacksquare$
+where the first step uses the above portion of the proof and the others utilize the basic properties of the adjoint and inner product.
+\end{proof} 
+
  
- \subsection{Finding Minimal Norm Solutions} \hfill \\
+ \subsection{Finding Minimal Norm Solutions}
  
- In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. We now turn our attention to developing techniques to find this solution. The standard tool in this effort is the \textit{Moore-Penrose pseudoinverse}. As we are not guaranteed a unique least-squares solution, the standard concept of an ``inverse'' does not apply. However, we now observe the utility of having proved results that guarantee a unique minimal norm solution, which allows us to generalize the inverse as an operator that maps to such solutions. 
+In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. 
+We now turn our attention to developing techniques to find this solution. The standard tool in this effort is the 
+\textit{Moore-Penrose pseudoinverse}. As we are not guaranteed a unique least-squares solution, 
+the standard concept of an ``inverse'' does not apply. However, we now observe the utility of having 
+proved results that guarantee a unique minimal norm solution, which allows us to generalize the 
+inverse as an operator that maps to such solutions. 
  
- \textbf{Definition}: For $T \in B(X, Y)$, define $\tilde{T}$ to be the restriction of $T$ to $(\Ker T)^\perp$. The \textit{Moore-Penrose psuedoinverse} $T^\dagger : \R(F) \oplus \R(F)^\perp \to Y$ is then defined as follows: 
+ \begin{definition} 
+ For $F \in B(X, Y)$, define $\tilde{F}$ to be the restriction of $F$ to $\N(F)^\perp$. The Moore-Penrose psuedoinverse $F^\dagger : \R(F) \oplus \R(F)^\perp \to Y$ is then defined as follows: 
  \begin{itemize} 
- \item For all $y \in \R(F)$, $T^\dagger y := T^{-1}y$
- \item $T^\dagger$ is extended to $\R(F) \oplus \R(F)^\perp$ by requiring that $T^\dagger$ is linear and satisfies $T^\dagger y^\perp = 0$ for all $y^\perp \in \R(F)^\perp$
+ \item For all $y \in \R(F)$, $F^\dagger y := F^{-1}y$
+ \item $F^\dagger$ is extended to $\R(F) \oplus \R(F)^\perp$ by requiring that $F^\dagger$ is linear and satisfies $F^\dagger y^\perp = 0$ for all $y^\perp \in \R(F)^\perp$
  \end{itemize} 
+ \end{definition} 
  
-Note that by definition $\tilde{T}$ has a trivial null space and we are therefore justified in talking about its inverse. Recall from \textbf{prop num} that the requirement $y \in \R(F) \oplus \R(F)^\perp$ guaranteed uniqueness of the minimal norm solution. It is therefore unsurprising that we define the domain of $T^\dagger$ to be $\R(F) \oplus \R(F)^\perp$. In particular, if $\R(F)$ is closed then $T^\dagger$ is defined on all of $Y$. While the above definition may seem cryptic, the next result shows that it addresses our problem of finding minimal norm solutions.
+Note that by definition $\tilde{F}$ has a trivial null space and we are therefore justified in talking 
+about its inverse. Recall that a minimal norm solution is guaranteed for any $y \in Y$ when $\R(F)$ is closed. 
+Instead of making this restrictive assumption in defining the pseudoinverse, we instead choose to define 
+ $F^\dagger$ on a smaller domain $y \in \R(F) \oplus \R(F)^\perp$ 
+guaranteed uniqueness of the minimal norm solution. It is therefore unsurprising that we define the 
+domain of $F^\dagger$ to be $\R(F) \oplus \R(F)^\perp$. In particular, if $\R(F)$ is closed then $F^\dagger$ 
+is defined on all of $Y$. While the above definition may seem cryptic, the next result shows that it addresses
+ our problem of finding minimal norm solutions.
 
 \textbf{Proposition}: Let $y \in \R(F) \oplus \R(F)^\perp$. Then $T^\dagger y$ is the minimal norm solution of the least-squares problem. 
 
