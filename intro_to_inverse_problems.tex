@@ -434,18 +434,43 @@ then the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y
 \end{definition} 
 
 \subsection{The Normal Equations}
+We begin by proving a lemma that will be used frequently in the subsequent analysis. 
 
-The following theorem, which provides another useful characterization of least-squares solutions, 
- generalizes the well-known normal equations to infinite-dimensional spaces. 
-
-\begin{prop} 
-$\hat{x} \in \mathbb{L}$ if and only if $F^* F\hat{x} = F^* y$. In this case $F\hat{x} - y \in \R(F)^\perp$.
-\end{prop} 
+\begin{lemma} \label{range_lemma}
+If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
+\end{lemma} 
 
 \begin{proof} 
-First note that $\inf_{x \in X} \norm{Tx - y}_Y = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y$. By the projection theorem (Luenberger 3.3 Theorem 1) we have \[\hat{y} = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y \iff \hat{y} - y \perp \R(F)\] 
-The orthogonality condition follows from the fact that $\hat{x} \in \mathbb{L}$ if and only if $F\hat{x} = \hat{y}$. 
-To obtain the normal equations, consider: 
+By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
+additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
+by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
+$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
+operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
+as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
+the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
+\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
+which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
+\end{proof} 
+
+The following theorem generalizes the well-known normal equations to infinite-dimensional spaces. 
+
+\begin{thm} 
+The following are equivalent. 
+\begin{itemize} 
+\item $\hat{x} \in \mathbb{L}$
+\item $F^* F\hat{x} = F^* y$
+\item $F\hat{x} = P_{\overline{\R(F)}} y$
+\end{itemize} 
+\end{thm} 
+
+\begin{proof} 
+First note that $\inf_{x \in X} \norm{Fx - y}_Y = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y$. By the projection theorem (Luenberger 1969, p. 51) 
+we have \[\hat{y} = \inf_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y \iff \hat{y} - y \perp \R(F)\] 
+Therefore, $\hat{x} \in \mathbb{L}$ if and only if $F\hat{x} - y \in \R(F)^\perp$. We then obtain the decomposition
+$y = F\hat{x} + (y - F\hat{x})$, with $F\hat{x} \in \R(F)$ and $y - F\hat{x} \in \R(F)^\perp$. Then by lemma (\ref{range_lemma}) it follows that
+$P_{\overline{R(F)}} y = F\hat{x}$. This shows that the first statement implies the third. To show the converse, we apply theorem (\ref{projection_theorem})
+to conclude \[\norm{F\hat{x} - y}_Y = \norm{P_{\overline{\R(F)}}y - y}_Y \leq \inf_{z \in \overline{\R(F)}} \norm{z - y}_Y \leq \inf_{z \in \R(F)} \norm{z - y}_Y = \inf_{x \in X} \norm{Fx - y}_Y\]
+which shows that $\hat{x} \in \mathbb{L}$. To complete the proof, we show the equivalence of the first two statements. 
 \begin{align*} 
 \hat{x} = \inf_{x \in X} \norm{Fx - y}_X &\iff (F\hat{x} - y) \perp \R(F) \\
                                                             &\iff (F\hat{x} - y| Fx) = 0 \ \forall x \in X \\
@@ -493,24 +518,6 @@ If $\R(F)$ is not closed, we cannot cannot assert existence for all $y$
 but we can restrict ourselves to consider the maximal subset of $Y$ that always admits a least-squares solution. 
 The following results generalize the above results by discarding the assumption that $\R(F)$ is closed and instead 
 restricting our attention to this maximal subset. 
-
-\begin{lemma} 
-If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
-\end{lemma} 
-
-\begin{proof} 
-By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
-additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
-by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
-$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
-operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
-as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
-the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
-\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
-which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
-\end{proof} 
-
-With this useful fact established, we may fully characterize $\mathbb{L}$. 
 
 \begin{prop} 
 $\mathbb{L}$ is non-empty (that is, \eqref{linear_least_squares} has a solution) if and only if $y \in \R(F) \oplus \R(F)^\perp$. 
