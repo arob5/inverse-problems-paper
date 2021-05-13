@@ -538,7 +538,7 @@ but we can restrict ourselves to consider the maximal subset of $Y$ that always 
 The following results generalize those of the above section by discarding the assumption that $\R(F)$ is closed and instead 
 restricting our attention to this maximal subset. 
 
-\begin{thm} 
+\begin{thm} \label{existence_theorem}
 $\mathbb{L}$ is non-empty (that is, \eqref{linear_least_squares} has a solution) if and only if $y \in \R(F) \oplus \R(F)^\perp$. 
 \end{thm} 
 
@@ -551,7 +551,32 @@ $\hat{x} \in \mathbb{L}$.
 \end{proof} 
 
 The above theorem provides a resolution to the existence question by giving a necessary and sufficient condition that 
-a given problem has a least-squares solution. 
+a given problem has a least-squares solution. Combined with the subsequent theorem, these results give a complete
+characterization of $\mathbb{L}$. 
+
+\begin{thm} \label{solution_characterization}
+Suppose $y \in \R(F) \oplus \R(F)^\perp$. Then \eqref{linear_least_squares} has a unique minimal norm solution $x^\dagger \in \N(F)^\perp$. 
+Moreover, $\mathbb{L} = x^\dagger + \N(F)$. 
+\end{thm} 
+
+\begin{proof} 
+Since $y \in \R(F) \oplus \R(F)^\perp$, theorem \ref{existence_theorem} guarantees that $\mathbb{L}$ is non-empty. Let $x_1, x_2 \in \mathbb{L}$. 
+Since $\N(F) \subset X$ is a closed subspace, we have $X = \N(F) \oplus \N(F)^\perp$. We thus have the unique decompositions
+$x_1 = x_1^\prime + x_1^\perp \in \N(F) \oplus \N(F)^\perp$ and $x_2 = x_2^\prime + x_2^\perp \in \N(F) \oplus \N(F)^\perp$. Since 
+$Fx_i^\perp = Fx_i - Fx_i^\prime = Fx_i$ then $x_1^\perp$, $x_2^\perp \in \mathbb{L}$. Then, 
+\[F(x_1^\perp - x_2^\perp) = Fx_1^\perp - Fx_2^\perp = P_{\overline{\R(F)}}y - P_{\overline{\R(F)}}y = 0\]
+where the second equality follows from theorem \ref{normal_equations}. Therefore, $x_1^\perp - x_2^\perp \in \N(F)$. 
+But since $\N(F)^\perp$ is a subspace, it also follows that $x_1^\perp - x_2^\perp \in \N(F)^\perp$. Therefore, 
+$x_1^\perp - x_2^\perp = 0$, or $x_1^\perp = x_2^\perp$. Letting $x^\dagger = x_1^\perp = x_2^\perp$, we have shown that
+\[\hat{x} \in \mathbb{L} \implies \hat{x} \in x^\dagger + \N(F)\]
+I claim that $x^\dagger$ is actually the minimal norm least squares solution. Indeed, for any $\hat{x} \in \mathbb{L}$ we have
+shown that $\hat{x} = x^\dagger + x^\prime$, where $x^\prime \in \N(F)$. Then, 
+\[\norm{\hat{x}}_X^2 = \norm{x^\dagger + x^\prime}_X^2 = \norm{x^\dagger}_X^2 + \norm{x^\prime}_X^2 \geq \norm{x^\dagger}_X^2\]
+where the second equality follows from $x^\dagger \perp x^\prime$. This combined with the fact that $x^\dagger \in \mathbb{L}$ proves that
+$x^\dagger$ is indeed a minimal norm least squares solution. Uniqueness follows from the fact that $\N(F)$ is closed (Luenberger 1969, p. 64). 
+
+Since we know that $x^\dagger + \N(F) \subset \mathbb{L}$, it follows that $\mathbb{L} = x^\dagger + \N(F)$. 
+\end{proof} 
 
 % Section 4: Finding Least Squares Solutions 
 \section{Finding Minimal Norm Solutions}
@@ -564,31 +589,36 @@ proved results that guarantee a unique minimal norm solution, which allows us to
 inverse as an operator that maps to such solutions. 
  
  \begin{definition} 
- For $F \in B(X, Y)$, define $\tilde{F}$ to be the restriction of $F$ to $\N(F)^\perp$. The Moore-Penrose psuedoinverse $F^\dagger : \R(F) \oplus \R(F)^\perp \to Y$ is then defined as follows: 
+ For $F \in B(X, Y)$, define $\tilde{F}$ to be the restriction of $F$ to $\N(F)^\perp$. The Moore-Penrose psuedoinverse $F^\dagger : \R(F) \oplus \R(F)^\perp \to X$ is then defined as follows: 
  \begin{itemize} 
- \item For all $y \in \R(F)$, $F^\dagger y := F^{-1}y$
+ \item For all $y \in \R(F)$, $F^\dagger y := \tilde{F}^{-1}y$
  \item $F^\dagger$ is extended to $\R(F) \oplus \R(F)^\perp$ by requiring that $F^\dagger$ is linear and satisfies $F^\dagger y^\perp = 0$ for all $y^\perp \in \R(F)^\perp$
  \end{itemize} 
  \end{definition} 
  
 Note that by definition $\tilde{F}$ has a trivial null space and we are therefore justified in talking 
-about its inverse. Recall that a minimal norm solution is guaranteed for any $y \in Y$ when $\R(F)$ is closed. 
-Instead of making this restrictive assumption in defining the pseudoinverse, we instead choose to define 
- $F^\dagger$ on a smaller domain $y \in \R(F) \oplus \R(F)^\perp$ 
-guaranteed uniqueness of the minimal norm solution. It is therefore unsurprising that we define the 
-domain of $F^\dagger$ to be $\R(F) \oplus \R(F)^\perp$. In particular, if $\R(F)$ is closed then $F^\dagger$ 
-is defined on all of $Y$. While the above definition may seem cryptic, the next result shows that it addresses
- our problem of finding minimal norm solutions.
+about its inverse. Recall that a minimal norm solution is guaranteed for any $y \in \R(F) \oplus \R(F)^\perp$. 
+This allows us to define $\R(F) \oplus \R(F)^\perp$ as the domain of $F^\dagger$. In particular, if $\R(F)$ is closed then $F^\dagger$ 
+is defined on all of $Y$. The following result gives the true motivation for the above definition; namely, that the pseudoinverse maps 
+to minimal norm solutions.
 
-\textbf{Proposition}: Let $y \in \R(F) \oplus \R(F)^\perp$. Then $T^\dagger y$ is the minimal norm solution of the least-squares problem. 
+\begin{thm} 
+Let $y \in \R(F) \oplus \R(F)^\perp$. Then $F^\dagger y$ is the minimal norm solution of \eqref{linear_least_squares}. 
+\end{thm} 
 
-\smallskip 
+\begin{proof} 
+By theorem \ref{solution_characterization}, a unique minimal norm solution exists. By assumption we have the 
+unique decomposition $y = \hat{y} + y^\perp \in \R(F) \oplus \R(F)^\perp$. Since $\hat{y} = y - y^\perp \in \R(F)^\perp$, 
+it follows from the projection theorem (Luenberger 1969, p. 50) that \[\norm{\hat{y} - y}_Y \leq \norm{y^\prime - y}_Y\]
+for all $y^\prime \in \R(F)$. By definition of $F^\dagger$, 
+\[F^\dagger y = F^\dagger \hat{y} = \tilde{F}^{-1}\hat{y}\]
+Applying $F$ to both sides, 
+\[F(F^\dagger y) = \hat{y}\]
+Thus $F^\dagger y \in \mathbb{L}$. By definition $F^\dagger y \in \N(F)^\perp$ so if follows from 
+theorem \ref{solution_characterization} that $F^\dagger y$ is the minimal norm least squares solution. 
+\end{proof} 
 
-\textit{Proof}: By \textbf{prop num}, a unique minimal norm solution exists. There are unique $\hat{y} \in \R(F)$ and $y^\perp \in \R(F)^\perp$ such that $y = \hat{y} + y^\perp$. Since $y - \hat{y} \perp \R(F)$ it follows from the projection theorem (Luenberger 3.3 Theorem 1) that $\hat{y} = \argmin_{y^\prime \in \R(F)} \norm{y^\prime - y}_Y$. By definition of $T^\dagger$, we have \[T^\dagger y = T^\dagger \hat{y} = \tilde{T}^{-1}\hat{y}\]
- Applying $T$ to both sides, \[T(T^\dagger y) = \hat{y}\]
- Thus $T^\dagger y \in \mathbb{L}$. By definition $T^\dagger y \in (\Ker T)^\perp$ so $T^\dagger y$ is the minimal norm solution (\textbf{prop num}). $\qquad \blacksquare$
- 
- 
+  
 \begin{thebibliography}{20}
 
 \bibitem{Luenberger}  Luenberger, David G., \textit{Optimization by Vector Space Methods}. Wiley, 1969. 
