@@ -43,6 +43,7 @@
 \newtheorem{prop}{Proposition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{thm}{Theorem}
+\newtheorem{corollary}{Corollary}
 
 \begin{document}
 
@@ -421,7 +422,7 @@ statement holds. By definition of the projection operator $\hat{m} \in M$ and by
  \end{equation} 
 If we assume that $\mathcal{R}(F)$ is closed, 
 then the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y$ 
- over $\mathcal{F}$ is guaranteed. However, we have not assumed that $F$ is injective and hence this does not 
+ over $\R(F)$ is guaranteed. However, we have not assumed that $F$ is injective and hence this does not 
  imply the uniqueness of a least-squares solution $\hat{x}$. Therefore, we must study the set of all 
  least-squares solutions, with an emphasis on the solution of minimal norm. 
  
@@ -437,16 +438,20 @@ then the existence of a unique $\hat{y} \in Y$ minimizing $\norm{y^\prime - y}_Y
 We begin by proving a lemma that will be used frequently in the subsequent analysis. 
 
 \begin{lemma} \label{range_lemma}
-If $y \in \R(F) \oplus \R(F)^\perp$ then $P_{\overline{\R(F)}} y \in \R(F)$. 
+If $y = y^\prime + y^\perp \in \R(F) \oplus \R(F)^\perp$ then, 
+\begin{itemize} 
+\item $y^\perp \in \overline{\R(F)^\perp}$
+\item $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$. 
+\end{itemize} 
 \end{lemma} 
 
 \begin{proof} 
 By definition of the projection operator, $P_{\overline{\R(F)}} y \in \overline{\R(F)}$, but we seek to show that under the 
 additional hypothesis $y \in \R(F) \oplus \R(F)^\perp$ that the projection is actually in $\R(F)$. We first note that 
-by assumption $y$ may be decomposed as $y = y^\prime + y^\perp$, where $y^\prime \in \R(F) \subset \overline{\R(F)}$ and 
-$y^\perp \in \R(F)^\perp$. Note that if we show $y^\perp \in \overline{\R(F)}^\perp$ then from the definition of the projection 
-operator we would have \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
-as desired. To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
+$y^\prime \in \R(F) \subset \overline{\R(F)}$. If we show $y^\perp \in \overline{\R(F)}^\perp$ then the second result will immediately 
+follow from the definition of the projection operator: 
+\[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
+To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
 the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
 \[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
 which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
@@ -454,7 +459,7 @@ which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y
 
 The following theorem generalizes the well-known normal equations to infinite-dimensional spaces. 
 
-\begin{thm} 
+\begin{thm} \label{normal_equations}
 The following are equivalent. 
 \begin{itemize} 
 \item $\hat{x} \in \mathbb{L}$
@@ -472,7 +477,7 @@ $P_{\overline{R(F)}} y = F\hat{x}$. This shows that the first statement implies 
 to conclude \[\norm{F\hat{x} - y}_Y = \norm{P_{\overline{\R(F)}}y - y}_Y \leq \inf_{z \in \overline{\R(F)}} \norm{z - y}_Y \leq \inf_{z \in \R(F)} \norm{z - y}_Y = \inf_{x \in X} \norm{Fx - y}_Y\]
 which shows that $\hat{x} \in \mathbb{L}$. To complete the proof, we show the equivalence of the first two statements. 
 \begin{align*} 
-\hat{x} = \inf_{x \in X} \norm{Fx - y}_X &\iff (F\hat{x} - y) \perp \R(F) \\
+\hat{x} = \inf_{x \in X} \norm{Fx - y}_Y &\iff (F\hat{x} - y) \perp \R(F) \\
                                                             &\iff (F\hat{x} - y| Fx) = 0 \ \forall x \in X \\
                                                             &\iff (F^*(F\hat{x} - y)| x) = 0 \ \forall x \in X \\
                                                             &\iff (F^*F\hat{x} - F^*y| x) = 0 \ \forall x \in X \\
@@ -482,12 +487,26 @@ which shows that $\hat{x} \in \mathbb{L}$. To complete the proof, we show the eq
 where the first step uses the above portion of the proof and the others utilize the basic properties of the adjoint and inner product.
 \end{proof} 
 
+Interpreting \textit{normal} to mean \textit{orthogonal}, then the following result explains the name ``normal equations''; namely, that 
+the residual vector is normal to $\R(F)$. While this follows directly from the projection theorem (Luenberger 1969, p. 51), we prove it
+via the results developed above. 
+
+\begin{corollary} \label{normal_residual}
+Suppose $\hat{x} \in X$ satisfies $F^* F\hat{x} = F^* y$. Then $y - \hat{x} \in \R(F)^\perp$.
+\end{corollary}
+
+\begin{proof} 
+We have, \[y - F\hat{x} = y - P_{\overline{\R(F)}}y = (I - P_{\overline{\R(F)}})y = P_{\overline{\R(F)}^\perp}y\]
+where the first equality follows from theorem \ref{normal_equations} and the third from proposition \ref{projection_properties}. 
+It then follows from lemma \ref{range_lemma} that \[y - F\hat{x} = P_{\overline{\R(F)}^\perp}y \in \R(F)^\perp\]
+\end{proof} 
+
 \subsection{Characterization of Solutions}
 
 \subsubsection{Assuming Closed Range}
 
 Given our current assumptions, we cannot conclude the existence of a least-squares solution. The cleanest approach to deal with this 
-issue is to assume $\R(F)$ is closed, allowing us to invoke theorem (\ref{projection_theorem}) to conclude the existence of a solution. While this 
+issue is to assume $\R(F)$ is closed, allowing us to invoke the projection theorem (Luenberger 1969, p. 51) to conclude the existence of a solution. While this 
 approach is straightforward, it is ultimately overly restrictive; indeed, there are important classes of linear maps that fail to have closed 
 range. We therefore first characterize $\mathbb{L}$ under the assumption that $\R(F)$ is closed in order to build intuition, and then 
 subsequently drop this assumption in favor of a more general theory. 
@@ -498,7 +517,7 @@ subsequently drop this assumption in favor of a more general theory.
  \end{prop} 
  
 \begin{proof} 
-Since $\R(F)$ is closed, there exists a unique $\hat{y} \in Y$ satisfying $\hat{y} = \min_{y^\prime \in \R(F)} \norm{y^\prime - y}_{Y}$. Let $\hat{x} \in \mathbb{L}$ such that $F\hat{x} = \hat{y}$ (Luenberger 1969, p. 64). Then, 
+Since $\R(F)$ is closed, there exists a unique $\hat{y} \in Y$ satisfying $\hat{y} = \min_{y^\prime \in \R(F)} \norm{y^\prime - y}_{Y}$. Let $\hat{x} \in \mathbb{L}$ such that $F\hat{x} = \hat{y}$. Then, 
  \begin{align*} 
  \mathbb{L} &= \{x \in X: Fx = \hat{y}\} \\
                    &= \{x \in X: F(x - \hat{x}) = 0\} \\
@@ -508,22 +527,34 @@ Since $\R(F)$ is closed, there exists a unique $\hat{y} \in Y$ satisfying $\hat{
  Therefore, $ \mathbb{L}$ is a translation of the closed subspace $\N(F)$. It then follows immediately that there exists a unique $x^\dagger \in \mathbb{L}$ of minimal norm, and moreover that $x^\dagger$ is orthogonal to $\N(F)$ (Luenberger 1969, p. 64). From the above derivation we clearly also have $\mathbb{L} = x^\dagger + \N(F)$
 \end{proof} 
 
-If either $X$ or $Y$ is finite-dimensional, then $\R(F)$ is closed and hence solutions always exist. 
+If either $X$ or $Y$ is finite-dimensional, then $\R(F)$ is closed and hence a solution always exists. 
 
-\subsubsection{Not Assuming Closed Range}
+\subsubsection{Dropping Assumption of Closed Range}
 
 In the above section, we rely on the assumption that $\R(F)$ is closed to guarantee the existence of a least-squares solution
 to \eqref{linear_least_squares} for every $y \in Y$. 
 If $\R(F)$ is not closed, we cannot cannot assert existence for all $y$  
 but we can restrict ourselves to consider the maximal subset of $Y$ that always admits a least-squares solution. 
-The following results generalize the above results by discarding the assumption that $\R(F)$ is closed and instead 
+The following results generalize those of the above section by discarding the assumption that $\R(F)$ is closed and instead 
 restricting our attention to this maximal subset. 
 
-\begin{prop} 
+\begin{thm} 
 $\mathbb{L}$ is non-empty (that is, \eqref{linear_least_squares} has a solution) if and only if $y \in \R(F) \oplus \R(F)^\perp$. 
-\end{prop} 
+\end{thm} 
 
- \subsection{Finding Minimal Norm Solutions}
+\begin{proof} 
+Let $\hat{x} \in \mathbb{L}$. Then $y = F\hat{x} + (y - F\hat{x}) \in \R(F) \oplus \R(F)^\perp$, following from corollary 
+\ref{normal_residual}. Conversely, suppose $y = y^\prime + y^\perp \in \R(F) \oplus \R(F)^\perp$. Then by lemma 
+\ref{range_lemma}, $P_{\overline{\R(F)}}y = y^\prime \in \R(F)$. There is thus an $\hat{x} \in X$ such that 
+$F\hat{x} = y^\prime$. Since $P_{\overline{\R(F)}}y = F\hat{x}$, it then follows from theorem \ref{normal_equations} that 
+$\hat{x} \in \mathbb{L}$. 
+\end{proof} 
+
+The above theorem provides a resolution to the existence question by giving a necessary and sufficient condition that 
+a given problem has a least-squares solution. 
+
+% Section 4: Finding Least Squares Solutions 
+\section{Finding Minimal Norm Solutions}
  
 In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. 
 We now turn our attention to developing techniques to find this solution. The standard tool in this effort is the 
