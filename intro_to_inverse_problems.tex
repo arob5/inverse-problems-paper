@@ -59,12 +59,11 @@ Andrew Roberts
 % Introduction
 The study of inverse problems is generally concerned with approximating 
 an unknown value using potentially corrupted or noisy data. Such problems find
-many applications across the physical, social, and mathematical sciences. Many 
-classic examples of inverse problems stem from the earth sciences; indeed,
-environmental measurements are often \textit{indirect}, meaning that we measure a quantity
+many applications across the physical, social, and mathematical sciences. As motivation, consider
+problems encountered in the earth sciences; environmental measurements are often \textit{indirect}, meaning that we measure a quantity
 that depends on some other input in the hope of producing an estimate of this 
 underlying input. The goal of inverse problem theory is to develop methods to make stable
-estimates of the underlying quantity in such scenarios. 
+estimates of the underlying quantity.
 
 This goal of this paper is to provide a brief introduction to modeling a specific class of inverse
 problems; namely, linear inverse problems in Hilbert space.
@@ -77,7 +76,7 @@ scope of this introduction.
 \section{Introduction to Inverse Problems} \label{inverse_problem_intro}
 
 \subsection{Motivation}
-Students of linear algebra may recall the importance of the matrix equation
+Students of linear algebra may recall studying the matrix equation
 \begin{equation} 
 Ax = b. \label{matrix_eqn}
 \end{equation}  
@@ -160,7 +159,7 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
  are naturally formulated in infinite-dimensional vector spaces, and moreover suffer from
   ill-posedness. I provide two examples below of such applications. 
  
- \paragraph*{Statistical Estimation}
+ \paragraph*{Parameter Estimation}
  Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics 
  and machine learning, may be formulated as an inverse problem. In this case we view 
  $F_\theta$ as a model or process that depends on some parameters $\theta$. We may
