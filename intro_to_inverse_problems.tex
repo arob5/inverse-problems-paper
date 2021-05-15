@@ -58,40 +58,30 @@ Andrew Roberts
 
 % Introduction
 The study of inverse problems is generally concerned with approximating 
-an unknown value using potentially corrupted or noisy data. The study of 
-such problems finds many applications across the physical, social, and 
-mathematical sciences. 
+an unknown value using potentially corrupted or noisy data. Such problems find
+many applications across the physical, social, and mathematical sciences. Many 
+classic examples of inverse problems stem from the earth sciences; indeed,
+environmental measurements are often \textit{indirect}, meaning that we measure a quantity
+that depends on some other input in the hope of producing an estimate of this 
+underlying input. The goal of inverse problem theory is to develop methods to make stable
+estimates of the underlying quantity in such scenarios. 
 
-This document is meant to help you prepare an Article for
-submission to \textsc{Mathematics Magazine}.  Of course,
-editorial decisions depend entirely on
-what you say and how you say it. Nonetheless, we will all save
-time if you exercise some care in how you first present the paper.
-
-Now that I have caught your attention with an interesting introductory paragraph,
-here is what you will find:
-specific information about the style of Articles in the \textsc{Magazine}
-and a description of the \LaTeX\ code we prefer that you use
-to prepare your manuscript.
-
-Since this section is very clearly
-an introduction, I thought that labeling it ``Introduction" would add
-nothing.  Note that I am willing to use the first person in an Article
-and you might be as well.  Another equally respectable choice is ``we,''
-even when there is only one author; this can
-create an author-reader partnership to
-work through the mathematics together.
-Whatever voice you choose, consistency is important.
+This goal of this paper is to provide a brief introduction to modeling a specific class of inverse
+problems; namely, linear inverse problems in Hilbert space.
+The focus here is on introducing some basic theoretical tools from Hilbert space and 
+operator theory and demonstrating how they may be used to characterize the 
+solutions of inverse problems. Techniques to actually solve such problems are beyond the
+scope of this introduction. 
 
 % Section 1: Introduction to Inverse Problems
 \section{Introduction to Inverse Problems} \label{inverse_problem_intro}
 
 \subsection{Motivation}
-Students of linear algebra may recall the prominence of the matrix equation
+Students of linear algebra may recall the importance of the matrix equation
 \begin{equation} 
 Ax = b. \label{matrix_eqn}
 \end{equation}  
-Here we may consider $A$ as a linear map 
+Here we consider $A$ as a linear map 
 that acts on a given vector $x$ and produces the output vector $b$. 
 This constitutes the ``forward problem'' in which we are given inputs and must 
 calculate outputs. The corresponding ``inverse problem'' reverses the situation; we observe 
@@ -104,19 +94,19 @@ of inverse problems will become clear with examples, as the majority of interest
 applications fail to enjoy the ``well-posedness'' of the above equation. 
 To make these notions concrete, consider the following mapping:
 \begin{eqnarray} 
-&F: X \to Y \\
+&F: X \to Y \nonumber \\
 &F(x) = y \label{inverse_problem}
 \end{eqnarray} 
 This equation, which generalizes the above matrix equation, will constitute the primary subject 
-of our analysis. The goal remains to compute $x$ given $y$. Note that I have been intentionally 
+of our analysis. The goal remains to compute $x$ given the measurement $y$. We have been intentionally 
 vague regarding specific properties of the map $F$ or spaces $X$ and $Y$. Indeed, varying the assumptions 
 placed on these objects lead to drastically different avenues of analysis and conceptual interpretations
 of inverse problems. 
 
 \subsection{Ill-Posedness}
 
-If all real-world examples of inverse problems admitted straightforward representations as in equation \eqref{matrix_eqn}
-then the field of inverse problem theory would not exist. The essence of the field is in developing methods to 
+Most real-world examples of inverse problems do not admit straightforward representations as in equation \eqref{matrix_eqn}.
+The essence of studying such problems is in developing methods to 
 deal with the so-called ``ill-posed'' cases. The following definition makes this notion concrete, 
 and motivates much of the theory discussed in this paper. 
 
@@ -145,12 +135,13 @@ Our goal is to minimize the \textit{forward error} $\norm{x - x_0}$, where $x_0$
 given that we don't know $x_0$, we must instead focus our efforts on minimizing the \textit{backward error}, $\norm{F(x) - y}$. 
 Stated in this terminology, the stability condition means that small backward errors imply small forward errors. 
 
- Regularization methods form the foundation of the toolkit used to address instability and will be discussed later in this paper. 
+ So-called \textit{regularization} methods form the foundation of the toolkit used to address instability, but will not be discussed 
+ in this paper.  
 
 \subsection{Theoretical Framework}
 
 Hilbert space provides a natural setting in which to study inverse problems. From a theoretical point of view, the structure provided by 
-inner products leads to relatively simple characterizations of solutions, while practically, many real-world inverse problems may 
+inner products leads to relatively simple characterizations of solutions, while practically, many applications may 
 naturally be formulated in such settings. Therefore, throughout this paper, we consider the inverse problem \eqref{inverse_problem}
 where $X$ and $Y$ are assumed to be real Hilbert spaces with respective inner products $(\cdot | \cdot)_X$ and $(\cdot | \cdot)_Y$. 
 Moreover, we assume $F$ to be a bounded linear operator between these spaces. 
@@ -185,26 +176,26 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
  % Section 2: Preliminaries
  \section{Preliminaries: Operator Theory} \label{preliminaries}
  This paper assumes prior knowledge of Hilbert spaces, including the basic theory of bounded 
- linear maps between such spaces. However, the adjoint and projection operators, which are of central importance 
- to the study of inverse problems, are treated from scratch. As a notational note, $B(X, Y)$ denotes the space of all bounded
+ linear maps between such spaces. However, the adjoint map and projection operator, which are of central importance 
+ to the study of inverse problems, are introduced from the ground up. As a notational aside, $B(X, Y)$ denotes the space of all bounded
  (or equivalently, continuous) linear operators from $X$ to $Y$. For $F \in B(X, Y)$ we write $\norm{F}$
- to refer to the operator norm of $F$. $\mathcal{R}(F)$ and $\mathcal{N}(F)$ refer to the range and 
+ to refer to the operator norm of $F$. $\mathcal{R}(F)$ and $\mathcal{N}(F)$ denote the range and 
  null space of $F$, respectively. Finally, if a bounded linear map shares the same domain and codomain we write 
  $F \in B(X, X) = B(X)$ and call $F$ an \textit{operator} on $X$. 
   
 \subsection{Adjoints}
  \begin{definition} 
- (Adjoint) Let $F \in B(X, Y)$. Then the adjoint operator of $F$, $F^*: Y \to X$, is defined by 
+ (Adjoint) Let $F \in B(X, Y)$. Then the adjoint of $F$, $F^*: Y \to X$, is defined by 
  	\begin{equation*} 
-	(Ax|y)_Y = (x|A^*y)_X
+	(Fx|y)_Y = (x|F^*y)_X
  	\end{equation*} 
 	for all $x \in X$, $y \in Y$. 
  \end{definition} 
-To justify this definition, consider the bounded linear functional $f_y(x) = (Ax|y)_Y$. By the Riesz representation theorem (Royden) 
-there is a unique $x_y \in X$ satisfying $f_y(x) = (x|x_y)_X$ for all $x \in X$; that is, $(Ax|y)_Y = (x|x_y)_X$. 
-We thus define $A^*y := x_y$. The adjoint helps to encode orthogonality relations between the spaces $X$ and $Y$. 
+To justify this definition, consider the bounded linear functional $f_y(x) = (Fx|y)_Y$. By the Riesz representation theorem \textbf{(Royden)}
+there is a unique $x_y \in X$ satisfying $f_y(x) = (x|x_y)_X$ for all $x \in X$; that is, $(Fx|y)_Y = (x|x_y)_X$. 
+We thus define $F^*y := x_y$. The adjoint helps to encode orthogonality relations between the spaces $X$ and $Y$. 
 It may be interpreted as a generalization of the transpose operator for real-valued matrices; indeed, if $A \in \mathbb{R}^{n \times m}$, 
-then $A^* = A^\prime$. The following three propositions outline the fundamental properties of adjoints that will leveraged throughout
+then $A^* = A^\prime$. The following three propositions outline the fundamental properties of adjoints that will be leveraged throughout
 this paper. 
 
 \begin{prop} 
@@ -235,7 +226,8 @@ Thus, $\norm{F} = \norm{F^*}$
 \end{proof} 
 
 The first two results in the following proposition tell us that the adjoint is a linear map from $B(X, Y)$
-to $B(Y, X)$.
+to $B(Y, X)$ (not to be confused with the fact that the adjoint of a fixed $F \in B(X, Y)$ is a linear map 
+from $Y$ to $X$).
 
 \begin{prop} 
 Let $F, G \in B(X, Y)$ and $\alpha \in \mathbb{R}$. Then,
@@ -247,7 +239,7 @@ Let $F, G \in B(X, Y)$ and $\alpha \in \mathbb{R}$. Then,
 \end{prop}
 
 \begin{proof} 
-The first result follows from definition of adjoint and linearity of the inner product. 
+The first result follows from definition of the adjoint and linearity of the inner product. 
 \begin{align*} 
 (x|(F + G)^*y)_X &= ((F + G)x|y)_Y \\
                            &= (Fx|y)_Y + (Gx|y)_Y \\
@@ -295,7 +287,7 @@ results above.
 
 To conclude our introduction to the adjoint, we prove a result that more closely aligns with our goal of studying 
 linear inverse problems. The restrictive assumption that the equation is consistent will be dropped in section
-\textbf{section num}, where this result will be generalized to least-squares problems. 
+\ref{formulation}, where this result will be generalized to least-squares problems. 
 \begin{prop} 
 Let $F \in B(X, Y)$ with $\mathcal{R}(F) \subset Y$ closed. Assume there is at least one $x \in X$ satisfying
 $Fx = y$. Then the vector $x^\dagger$ of minimum norm satisfying this equation is given by 
@@ -308,7 +300,7 @@ is also a solution. To show that this accounts for all possible solutions, let $
 This implies $F(x^\prime - x) = 0$ so $x^\prime - x \in \mathcal{N}(F)$ and thus $x^\prime$ must also be of the form 
 $x + k$. Now that we have characterized the set of possible solutions, we must show how to select the solution
 of minimal norm. The existence of such a unique solution follows from $\mathcal{N}(F)$ being a closed subspace, 
-which implies the set of solutions to $Fx = y$ is a closed subspace. It then follows that the unique vector $x^\dagger$
+which implies the set of solutions to $Fx = y$ is the translation of a closed subspace. It then follows that the unique vector $x^\dagger$
 of minimum norm is orthogonal to $\mathcal{N}(F)$ (Luenberger 1969, p. 64). From the previous proof and the assumption
 that $F$ has closed range, \[x^\dagger \in \mathcal{N}(F)^\perp = \overline{\mathcal{R}(F^*)} = \mathcal{R}(F^*)\]
 Therefore, there exists $y^\prime \in Y$ satisfying $F^*y^\prime = x^\dagger$. Since $x^\dagger$ is a solution of 
@@ -318,7 +310,7 @@ the original equation, we obtain $FF^*y^\prime = y$.
 \subsection{Projections}
 
 Throughout this section we use the fact that if $M \subset H$ is a closed subspace of a Hilbert space, then 
-$H$ may be written as the direct sum $H = M \oplus M^\perp$. For a given $x_i \in H$ I will write $m_i \in M$ and 
+$H$ may be written as the direct sum $H = M \oplus M^\perp$. For a given $x_i \in H$ we write $m_i \in M$ and 
 $m_i^\perp \in M^\perp$ to denote the vectors giving the unique decomposition $x_i = m_i + m_i^\perp$. 
 
 \begin{definition} 
@@ -342,7 +334,7 @@ $x_1 + x_2 = (m_1 + m_2) + (m_1^\perp + m_2^\perp)$, where the first term is in
 $M$ and the second in $M^\perp$. Thus, \[P_M (x_1 + x_2) = m_1 + m_1 = P_M x_1 + P_M x_2\]
 $P_M (\alpha x_1) = \alpha P_M x_1$ follows by the same reasoning, so $P_M$ is linear. 
 
-To show that $P_M$ is bounded, we apply the generalized Pythagorean Theorem to conclude: 
+To show that $P_M$ is bounded, we apply the generalized Pythagorean Theorem (Luenberger 1969, p. 49) to conclude: 
 \[\norm{P_M x}_H^2 = \norm{m}_H^2 \leq \norm{m}_H^2 + \norm{m^\perp}_H^2 = \norm{x}_H^2\]
 and therefore $\norm{P_M x}_H \leq \norm{x}_H$ for all $x \in H$ so $P_M$ is bounded. Thus, $P_M \in B(H)$
 and $\norm{P_M} \leq 1$. 
@@ -367,26 +359,26 @@ First suppose $P$ is a projection operator onto some closed subspace $M \subset 
 to be idempotent by applying the definition of a projection twice. To show that $P$ is self-adjoint, let $x_1, x_2 \in H$
 and consider: 
 \begin{align*} 
-(Px_1|x_2) &= (m_1|m_2 + m_2^\perp) = (m_1|m_2) \\
-(x_1|Px_2) &= (m_1 + m_1^\perp|m_2) = (m_2|m_2)
+(Px_1|x_2)_H &= (m_1|m_2 + m_2^\perp)_H = (m_1|m_2)_H \\
+(x_1|Px_2)_H &= (m_1 + m_1^\perp|m_2)_H = (m_2|m_2)_H
 \end{align*} 
-Therefore, $(Px_1|x_2) = (x_1|Px_2)$ for all $x_1, x_2 \in H$ so $P^* = P$. 
+Therefore, $(Px_1|x_2)_H = (x_1|Px_2)_H$ for all $x_1, x_2 \in H$ so $P^* = P$. 
 
 Now suppose $P$ is idempotent and self-adjoint. I claim that $P$ is a projection
 upon $\R(P)$. Since $P^* = P$ it follows from proposition \eqref{subspace_equalities}
 that $\overline{\R(P)} = \N(P)^\perp$. Let $M = \overline{R(P)}$ so that $H = M \oplus M^\perp$. 
 Let $m \in M$. Then there exists a sequence $(m_i) \subset \R(P)$ such that $m_i \to m$. Then for any $n \in \N(P)$,
 \begin{align*} 
-(Pm|n) &= (P(\lim_{i \to \infty} m_i)|n) \\
-            &= \lim_{i \to \infty} (Pm_i|n) \\
-            &= \lim_{i \to \infty} (m_i|Pn) \\
-            &= \lim_{i \to \infty} (m_i|0) \\
+(Pm|n)_H &= (P(\lim_{i \to \infty} m_i)|n)_H \\
+            &= \lim_{i \to \infty} (Pm_i|n)_H \\
+            &= \lim_{i \to \infty} (m_i|Pn)_H \\
+            &= \lim_{i \to \infty} (m_i|0)_H \\
             &= 0
 \end{align*} 
 using the continuity of $P$ and the inner product, as well as the assumption that $P^* = P$. 
 Therefore, $Pm \in \N(P)^\perp = M$. 
 Next, let $m^\perp \in M^\perp = \overline{\R(P)}^\perp$. Then for all $x \in H$, 
-\[(Pm^\perp|x) = (m^\perp|Pm) = 0\]
+\[(Pm^\perp|x)_H = (m^\perp|Pm)_H = 0\]
 since $Pm \in M$, as shown above. 
 
 Therefore, for any $x \in H$, we have shown that $x$ may be decomposed as $x = m + m^\perp$
@@ -453,7 +445,7 @@ follow from the definition of the projection operator:
 \[P_{\overline{\R(F)}} y = P_{\overline{\R(F)}} (y^\prime + y^\perp) = y^\prime \in \R(F)\]
 To this end, let $v \in \overline{\R(F)}$. Then there is a sequence $(y_i) \subset \R(F)$ such that $y_i \to v$. Using
 the fact that $y^\perp \in \R(F)^\perp$ and the continuity of the inner product, we have 
-\[0 = \lim_{i \to \infty} (y_i|y^\perp) = (\lim_{i \to \infty} y_i|y^\perp) = (v|y^\perp)\]
+\[0 = \lim_{i \to \infty} (y_i|y^\perp)_Y = (\lim_{i \to \infty} y_i|y^\perp)_Y = (v|y^\perp)_Y\]
 which proves $y^\perp \in \overline{\R(F)}^\perp$. Thus, $P_{\overline{\R(F)}} y = y^\prime \in \R(F)$.
 \end{proof} 
 
@@ -477,10 +469,10 @@ $P_{\overline{R(F)}} y = F\hat{x}$. This shows that the first statement implies 
 to conclude \[\norm{F\hat{x} - y}_Y = \norm{P_{\overline{\R(F)}}y - y}_Y \leq \inf_{z \in \overline{\R(F)}} \norm{z - y}_Y \leq \inf_{z \in \R(F)} \norm{z - y}_Y = \inf_{x \in X} \norm{Fx - y}_Y\]
 which shows that $\hat{x} \in \mathbb{L}$. To complete the proof, we show the equivalence of the first two statements. 
 \begin{align*} 
-\hat{x} = \inf_{x \in X} \norm{Fx - y}_Y &\iff (F\hat{x} - y) \perp \R(F) \\
-                                                            &\iff (F\hat{x} - y| Fx) = 0 \ \forall x \in X \\
-                                                            &\iff (F^*(F\hat{x} - y)| x) = 0 \ \forall x \in X \\
-                                                            &\iff (F^*F\hat{x} - F^*y| x) = 0 \ \forall x \in X \\
+\hat{x} = \inf_{x \in X} \norm{Fx - y}_Y &\iff (F\hat{x} - y)_Y \perp \R(F) \\
+                                                            &\iff (F\hat{x} - y| Fx)_Y = 0 \ \forall x \in X \\
+                                                            &\iff (F^*(F\hat{x} - y)| x)_X = 0 \ \forall x \in X \\
+                                                            &\iff (F^*F\hat{x} - F^*y| x)_X = 0 \ \forall x \in X \\
                                                             &\iff F^*F\hat{x} - F^*y = 0 \\
                                                             &\iff F^*F\hat{x} = F^*y                                                            
 \end{align*} 
@@ -492,7 +484,7 @@ the residual vector is normal to $\R(F)$. While this follows directly from the p
 via the results developed above. 
 
 \begin{corollary} \label{normal_residual}
-Suppose $\hat{x} \in X$ satisfies $F^* F\hat{x} = F^* y$. Then $y - \hat{x} \in \R(F)^\perp$.
+Suppose $\hat{x} \in X$ satisfies $F^* F\hat{x} = F^* y$. Then $y - F\hat{x} \in \R(F)^\perp$.
 \end{corollary}
 
 \begin{proof} 
@@ -531,7 +523,7 @@ If either $X$ or $Y$ is finite-dimensional, then $\R(F)$ is closed and hence a s
 
 \subsubsection{Dropping Assumption of Closed Range}
 
-In the above section, we rely on the assumption that $\R(F)$ is closed to guarantee the existence of a least-squares solution
+In the above section, we relied on the assumption that $\R(F)$ is closed to guarantee the existence of a least-squares solution
 to \eqref{linear_least_squares} for every $y \in Y$. 
 If $\R(F)$ is not closed, we cannot cannot assert existence for all $y$  
 but we can restrict ourselves to consider the maximal subset of $Y$ that always admits a least-squares solution. 
@@ -551,7 +543,7 @@ $\hat{x} \in \mathbb{L}$.
 \end{proof} 
 
 The above theorem provides a resolution to the existence question by giving a necessary and sufficient condition that 
-a given problem has a least-squares solution. Combined with the subsequent theorem, these results give a complete
+a given problem has a least-squares solution. Combined with the next theorem, these results give a complete
 characterization of $\mathbb{L}$. 
 
 \begin{thm} \label{solution_characterization}
