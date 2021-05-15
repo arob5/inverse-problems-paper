@@ -158,7 +158,7 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
  However, it soon becomes clear that the generality allows these techniques to be 
  applied to a wide array of problems across various fields. Many of these applications 
  are naturally formulated in infinite-dimensional vector spaces, and moreover suffer from
-  ill-posedness. I provide three examples below of such applications. 
+  ill-posedness. I provide two examples below of such applications. 
  
  \paragraph*{Statistical Estimation}
  Parameter estimation (or \textit{model calibration}), ubiquitous across the fields of statistics 
@@ -169,9 +169,18 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
   $F(\theta, x) = y$. The problem thus becomes: given observed outputs $y$ and inputs $x$, 
   estimate the parameters $\theta$ of the underlying process $F$. 
   
-  \paragraph*{Differentiation}
- 
- \textbf{TODO: Add two more examples}
+  \paragraph*{Deconvolution}
+ A common problem in signal and image processing, deconvolution describes the process of 
+ ``deblurring'' a degraded signal or image. This may be modeled as 
+ \[Fx = y\]
+ where the map $F$ is defined by 
+ \[y(\alpha) = (Fx)(\alpha) = \int_{-\infty}^{\infty} x(t)g(\alpha - t) dt\]
+ We think of $y$ as an observed signal that has been distorted by some known function $g$ (often $g$ 
+ is unknown and hence must be estimated first). The goal is then to recover the original unknown signal $x$.
+ This is typically performed by applying the inverse Fourier transform; however, this inverse map often
+ magnifies small measurement errors in $y$ and hence is ill-posed. Since $x$ and $y$ are functions, 
+ we observe that this inverse problem is inherently infinite-dimensional. 
+
  
  % Section 2: Preliminaries
  \section{Preliminaries: Operator Theory} \label{preliminaries}
@@ -182,16 +191,17 @@ paper will treat the solution of \eqref{inverse_problem} as purely deterministic
  to refer to the operator norm of $F$. $\mathcal{R}(F)$ and $\mathcal{N}(F)$ denote the range and 
  null space of $F$, respectively. Finally, if a bounded linear map shares the same domain and codomain we write 
  $F \in B(X, X) = B(X)$ and call $F$ an \textit{operator} on $X$. 
-  
+ 
 \subsection{Adjoints}
  \begin{definition} 
- (Adjoint) Let $F \in B(X, Y)$. Then the adjoint of $F$, $F^*: Y \to X$, is defined by 
+ (Adjoint)\footnote{The adjoint may also be defined more generally for Banach spaces (Luenberger 1969, p. 150).} 
+ 	Let $F \in B(X, Y)$. Then the adjoint of $F$, $F^*: Y \to X$, is defined by 
  	\begin{equation*} 
 	(Fx|y)_Y = (x|F^*y)_X
  	\end{equation*} 
 	for all $x \in X$, $y \in Y$. 
  \end{definition} 
-To justify this definition, consider the bounded linear functional $f_y(x) = (Fx|y)_Y$. By the Riesz representation theorem \textbf{(Royden)}
+To justify this definition, consider the bounded linear functional $f_y(x) = (Fx|y)_Y$. By the Riesz-Frechet theorem (Luenberger 1969, p. 109)
 there is a unique $x_y \in X$ satisfying $f_y(x) = (x|x_y)_X$ for all $x \in X$; that is, $(Fx|y)_Y = (x|x_y)_X$. 
 We thus define $F^*y := x_y$. The adjoint helps to encode orthogonality relations between the spaces $X$ and $Y$. 
 It may be interpreted as a generalization of the transpose operator for real-valued matrices; indeed, if $A \in \mathbb{R}^{n \times m}$, 
@@ -570,8 +580,7 @@ $x^\dagger$ is indeed a minimal norm least squares solution. Uniqueness follows 
 Since we know that $x^\dagger + \N(F) \subset \mathbb{L}$, it follows that $\mathbb{L} = x^\dagger + \N(F)$. 
 \end{proof} 
 
-% Section 4: Finding Least Squares Solutions 
-\section{Finding Minimal Norm Solutions}
+\subsubsection{A First Look at Finding Solutions}
  
 In the above section, we verified (under suitable assumptions) the existence of a unique minimal norm solution. 
 We now turn our attention to developing techniques to find this solution. The standard tool in this effort is the 
@@ -610,10 +619,22 @@ Thus $F^\dagger y \in \mathbb{L}$. By definition $F^\dagger y \in \N(F)^\perp$ s
 theorem \ref{solution_characterization} that $F^\dagger y$ is the minimal norm least squares solution. 
 \end{proof} 
 
+At this point, the pseudoinverse is a purely theoretical tool. Without suitable means to calculate $F^\dagger$, then 
+the above definition does little to benefit actual applications. While there is a wide array of literature concerned with 
+calculating $F^\dagger$ is various settings, this is beyond the scope of this introduction. 
+
   
 \begin{thebibliography}{20}
 
-\bibitem{Luenberger}  Luenberger, David G., \textit{Optimization by Vector Space Methods}. Wiley, 1969. 
+\bibitem{Clason} C. Clason, \textit{Regularization of Inverse Problems: Lecture Notes}. 2021.
+
+\bibitem{EL} M. J. Ehrhardt and L. F. Lang, \textit{Inverse Problems}. 2018.
+
+\bibitem{Luenberger}  D. G. Luenberger, \textit{Optimization by Vector Space Methods}. Wiley, 1969. 
+
+\bibitem{Royden} H. L. Royden and P. Fitzpatrick, \textit{Real Analysis}. Pearson, 2018.
+
+\bibitem{Sullivan} T. J. Sullivan, \textit{Introduction to Uncertainty Quantification}. Springer, 2017.
 
 \end{thebibliography}
  
